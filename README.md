@@ -1,4 +1,5 @@
 # Statistics, Probability and Machine Learning
+- Notes from following the course https://www.udemy.com/course/statsml_x/
 
 ## Table of Contents
 
