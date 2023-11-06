@@ -85,7 +85,7 @@ data3 = np.exp(np.random.randn(n)/2 + 1)
 
 # histogram discretization for the datasets
 y1,x1 = np.histogram(data1,bins=k)
-xx1 = (x1[0:-1] + x1[1:]) / 2 # get the midpoints of bins to prevent x/y dimensions error
+xx1 = (x1[0:-1] + x1[1:]) / 2 # get the midpoints of bins to prevent x/y dimensions error (# you have to average the bin values together in order to get the plot to work and not throw errors that x does not equal y dimensions.)
 y1 = y1 / sum(y1) # convert to proportion - amount over the total sum of all y axis values (total count of data)
 
 y2,x2 = np.histogram(data2,bins=k)
