@@ -1,6 +1,7 @@
 # General Mathematics/Arithmetic Preqresuites
 
-[writing math symbols in markdown](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/writing-mathematical-expressions)
+- [writing math symbols in markdown](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/writing-mathematical-expressions)
+- Available markdown math syntax: https://katex.org/docs/supported.html
 
 ### Fractions/Exponents
 
@@ -15,6 +16,10 @@
 - If you are multiplying more than one number that have exponents in them and the bases are the same, then you can add the exponents:
 - $3^2 * 3^4 = 3^{2+4}$
   - This only works when the base (3 in this case) is the same
+
+### Square roots
+
+The square root is equivalent to taking a value to the power of 1/2: $\sqrt{x} = x^{1/2}$
 
 ### Isolating to solve for x
 

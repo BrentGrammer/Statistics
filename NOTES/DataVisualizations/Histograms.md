@@ -7,11 +7,31 @@
 - You can move categories on the x-axis around and the shape of the higher/lower bars doesn't matter - their order.
 - But, if you move the values/bins on the x-axis of a histogram around, then it doesn't make sense. You'll have a bin that is greater values coming the left of a bin with smaller values etc. Ordering on the X-axis is meaningful in a histogram.
 
-#### How many bins to use?
+### How many bins to use?
 
+- [video](https://www.udemy.com/course/statsml_x/learn/lecture/20009434#content)
 - The goal of how many bins is to show enough to get the shape of the data, but not be overly detailed.
 - too few bins does not give an impression of the distribution or shape characteristic of the data.
 - There are mathematical guidelines for determing number of bins.
+
+#### Rules for determining number of bins:
+
+- **Freedman-Diaconis Rule (FD)**: Best and most recommended rule to use! Specify h (the width of bins) instead of k (the number of bins). As data increases, the bin size/width gets larger and the number of bins start to decrease. Depends on both the data count and the data spread. It is also guided by the features and characteristics of the data set. Given the width (h) you can apply the below formula to get the number of bins you should use: $$k = {\lceil{{max(x) - min(x)} \over h}\rceil}$$ - k is number of bins, h is the width of the bins (how wide they are, range of values for one bin), where x is the data values - The square brackets mean apply the ceiling function (always round up, i.e. 2.01 => 3.0)
+- Sturges guideline: specify k directly, the number of bins increase as the number of data points you have increases
+  - Is a logarithmic function - increase starts steep at the beginning and the increase slows down as you get further to the right - as n gets larger, the number of bins does not increase linearly (slows down)
+- Arbirtrary Rule: just directly assigns a number of k bins. advantage is it's easy to use, based on intuition. generally 30,40,50 tends to be good number.
+- Do NOT vary bin widths - make them all the same size and width.
+
+```python
+# use matplotlib to get FD formulated bins:
+plt.hist(data, bins='fd')
+plt.show()
+
+# Alternatively, seabourn presents a nicer plot with a probability distribution curve
+import seaborn as sns
+
+sns.distplot(data) # uses FD by default
+```
 
 ### Using Proportion vs. Count measurements
 

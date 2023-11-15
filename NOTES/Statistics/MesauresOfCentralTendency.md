@@ -47,7 +47,6 @@
   - [0,0,1,1,1,1,2,3] > the mode is 1
   - it is possible to have more than one mode! [0,0,0,1,1,1,2,3] > mode(x) = 0,1
   - notation: mode(x) = 1
--
 
 ### When to use Mode:
 
@@ -55,6 +54,52 @@
 - Suitable for any data (numerical data needs to be converted to discrete values)
 - Most useful for nominal data types
   - Example mediums of news - 'TV, internet, radio' - the mode would be internet
+
+## Interquartile Range (IRQ)
+
+- [video](https://www.udemy.com/course/statsml_x/learn/lecture/20009408#content)
+- A central range that contains 50% of your data.
+- Take the median of the data on each side of the median of a data set.
+  - The left side is 50% of the data, so the left median will have 25% of the data on one side and 25% of data on the other. The right median is also in the middle of 50% of the data, so it will have 25% and 25% of all the data on either side of it.
+  - Left median is "Qaurtile 1", the middle median (in the middle of all the data) is "Quartile 2" and the right side median is "Quartile 3".
+- **The INTERQUARTILE RANGE is the 50% of the data that is between Quartile 1 and Quartile 3 (Note: the vertical boundaries are the quartiles, not the 25% of data space in between them)**
+- Useful for identifying the value range that encompasses 50% of your data and useful for box plots
+
+### IRQ Code
+
+```python
+import scipy.stats as stats
+
+# create normally distributed random numbers, 1000 of them squared
+n = 1000
+data = np.random.randn(n) ** 2
+
+# use scipy stats to get the irq
+iqrange = stats.iqr(data) # 1.198432...
+```
+
+## Statistical Moments
+
+- [video](https://www.udemy.com/course/statsml_x/learn/lecture/20009424#questions/18332018)
+- The Mean is the first moment of a distribution
+- Second moment: The Variance, dispersion around the mean
+- Third Moment: Skewness, Dispersion asymmetry against the mean
+  - refers to the direction you're pulling the values of outliers off into (i.e. right skew means the tail goes long to the right)
+- Fourth Moment: Kurtosis, Tail fatness
+  - A bell curve distribution that falls off slowly (wide and fat) has High Kurtosis - it is more distributed and wider compared to a Gaussian
+  - A bell curve that is skinny and falls off on either side quickly has Low Kurtosis - the tails are shorter than what you would expect for a Gaussian
+- There are more than 4 moments, but these are the most used moments.
+
+### Unstandardized Stastical Moments:
+
+- Not used in practice
+
+### Standardized Statistical moments
+
+- These are actually used in practice instead of the unstandardized statistical moments
+- . The standardized moments have that normalization factor (1/[ns^k]). That allows you to compare the numerical values of, e.g., skewness, across different datasets. Without that normalization, the skewness value (third moment) would be different if you measured weight in grams vs. kilograms. But then the normalization factor that gives us the standardized moments means that the skewness value is the same regardless of whether you measure weight in grams, kilos, pounds, etc.
+
+In other words, the standardized moments are about the shape of the distribution, not the numerical ranges of the numbers that make up the distribution.
 
 # Coding in Python
 

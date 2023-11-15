@@ -24,13 +24,13 @@
 - A bell curve
 - negative or positive values
 - Types:
-  - Analytical Normal Distribution is based on a formula
-  - Empirical Normal Distribution
 
-- The core simplified and distrilled formula of a Gaussian Distribution is: $e^{-x^2}$ 
+  - Analytical Normal Distribution is based on a formula, i.e. a Gaussian distribution is theoretical with predetermined characteristics. A.K.A. a theoretical distribution.
+  - Empirical Normal Distribution: representative of the actual data - not predetermined characteristics - may not be perfectly Gaussian, just roughly gaussian.
+
+- The core simplified and distrilled formula of a Gaussian Distribution is: $e^{-x^2}$
   - You can plot $e$ on the x axis and $-x^2$ (also called "t") on the y axis
   - Almost everything in statistics can be related back to this simple expression
-  
 
 ### Uniform Distribution
 
@@ -50,6 +50,19 @@
 
 - Greek letter Chi (pronounced "Kie"): ($\chi$)
 - only defined for positive values
+
+### QQ Plots (quintile-quintile plots)
+
+- [video](https://www.udemy.com/course/statsml_x/learn/lecture/20009414#content)
+- Used to determine if your data is roughly normally distributed.
+- Useful because many statistical procedures (t-tests, regressions, etc) assume that data is normally distributed.
+- Answers the question: how do you know if data points given came from or resemble a guassian distributed system?
+- In a graph on the x axis is the expected values in a normal distribution, and on the y-axis are the actual values from a dataset
+  - If the actual values land close or on to the line of unity from left to right in the graph then the data can be verified as being normally distributed.
+  ```python
+  # use stats from scipy, pass in emprical data and it will make a qq plot against a gaussian line and show it
+  qq = stats.probplot(data, plot=plt) # plt comes from mapplotlib
+  ```
 
 ## Code
 
