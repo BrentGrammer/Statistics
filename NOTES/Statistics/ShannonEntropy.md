@@ -30,3 +30,74 @@
 - In some sense entropy is similar to variance, but entropy is nonlinear and makes no assumptions about the distribution (can be used with any distribution).
   - Variance depends on validity of the mean and is appropriate for roughly normally distributed data.
   - used more often for nonlinear systems. But the interpretation is basically the same -- higher entropy (variance) means the signal bounces around more.
+
+## Code
+
+- Note that to avoid divide by zero errors we need to add epsilon (smallest number closest to zero in python) when calculating probabilities (dividing by N data points). See below comments in code sample.
+
+```python
+# simulate discrete data (numeric, ordinal, categorical, different flavors of ice cream, etc.)
+N = 1000
+# take random numbers, square them and multiply by 8 and round them up with ceil
+numbers = np.ceil(8*np.random.rand(N)**2) # gives us nums between 1 and 8
+# can show them as dots on a plot
+plt.plot(numbers, 'o') # o shows them as dots
+
+# Get the probability of the numbers
+# get the unique numbers
+u = np.unique(numbers)
+probs = np.zeros(len(u))
+
+# get the count of the unique number and divide it by the number of data points to get the probability
+for ui in range(len(u)):
+  probs[ui] = sum(numbers==u[ui]) / N
+
+# Note how in code the entropy formula isn't exactly the same as the real formula
+# -sum(probs*np.log2(probs)) is the same, but we add the epsilon (+np.finfo(float).eps) - this is machine precision error, the closest python can get to the number zero.
+# epsilon is zero plus some rounding error, i.e. e-16 (10 to the negative 16 for example)
+# the purpose of adding epsilon is to avoid divide by zero errors (log2(0) = -infinity in python)
+entropee = -sum(probs*np.log2(probs+np.finfo(float).eps))
+
+# show a histogram of the distribution of numbers (higher bar means they appear more frequently in the data)
+plt.bar(u,probs)
+plt.title('Entropy = %g'%entropee)
+plt.xlabel('Data Value')
+plt.ylabel('Probability')
+plt.show()
+```
+
+### Computing Entropy from a Continuous Variable (code)
+- Important thing to remember is that entropy is very sensitive to the number of bins (in the historgram for converting data to probabilities).
+  - less bins = less entropy
+
+```python
+# create brownian noise to create a continuous variable (this is like a random walk process)
+# come up with random nums that can be greater than or less than zero, and get the sign, then take the cumulative sum of all those signs (+1s and -1s)
+N = 1123
+brownnoise = np.cumsum(np.sign(np.random.randn(N)))
+
+fig,ax = plt.subplots(2,1,figsize=(4,6))
+# plot the random stream of plus 1s and minus 1s:
+# note that brownian noise is one way to model the stock market (fluctuations that go up over long term trend)
+ax[0].plot(brownnoise)
+ax[0].set_xlabel('Data index')
+ax[0].set_ylabel('Data value')
+ax[0].set_title('Brownian noise')
+# show a histogram to get the shape of the distribution (will be random each time)
+ax[1].hist(brownnoise/sum(brownnoise),30)
+ax[1].set_xlabel('Data value')
+ax[1].set_ylabel('Probability')
+plt.show()
+
+# We cannot compute entropy directly on the data as is, we need to convert it to probabilities with a histogram
+# NOTE: entropy is very sensitive to the number of bins used, less bins will make entropy drop
+nbins = 50
+
+nPerBin, bins = np.histogram(brownnoise,nbins)
+# probabilities
+probs = nPerBin / sum(nPerBin) # normalize so they all sum to 1
+
+entropy = -sum(probs*np.log2(probs+np.finfo(float).eps))
+
+print('Entropy = %g'%entropy) # 5.46833 for example
+```
