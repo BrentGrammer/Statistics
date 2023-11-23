@@ -1,4 +1,4 @@
-# General Mathematics/Arithmetic Preqresuites
+# General Mathematics/Arithmetic Prerequisites
 
 - [writing math symbols in markdown](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/writing-mathematical-expressions)
 - Available markdown math syntax: https://katex.org/docs/supported.html
