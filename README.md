@@ -12,3 +12,4 @@
   - [Distributions](./NOTES/Statistics/Distributions.md)
   - [Measures of Central Tendency (mean, median, mode)](./NOTES/Statistics/MesauresOfCentralTendency.md)
 - [Data Visualizations](./NOTES/DataVisualizations/)
+- [Deep Learning](./NOTES/DeepLearning/)
