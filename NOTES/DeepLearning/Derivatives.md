@@ -81,3 +81,47 @@
     - the derivative of $f(g(x))$ is $5(x^2 + 4x^3)^4$ following $nax^{n-1}$
     - the derivative of $g(x)$ is $(2x + 12x^2)$: $x^2 => 2x$ (the exp becomes 1 and is dropped, since 2-1 = 1); $4x^3 => 12x$; $3 - 1 => 2$ for the exponent which gives us the $12x^2$
 - The chain rule is used in Gradient Descent. Libraries handle these complicated calculations for you.
+
+### Code for Product and Chain rule:
+
+```python
+# This makes Jupyter notebook display look nicer and print functions with nice latek printing etc.
+from IPython.display import display
+
+# initialize a symbolic variable to work with
+x = sym.symbols('x')
+
+# create two different functions that will interact
+fx = 2*x**2
+gx = 4*x**3 - 3*x**4
+
+# compute their derivatives separately
+df = sym.diff(fx)
+dg = sym.diff(gx)
+
+# Manually apply the product rule (f' * g + f * g'):
+manual = df*gx + fx*dg
+# Using sympy:
+viasympy = sym.diff(fx*gx)
+
+print('Functions:')
+display(fx)
+display(gx)
+print('Derivatives:')
+display(df)
+display(dg)
+print('Manually calculated product:')
+display(manual)
+print('Calculated using sympy:')
+display(viasympy)
+
+### Chain Rule (dealing with embedded functions and calculating the derivative)
+gx = x**2 + 4*x**3
+fx = (gx)**5 # f(g(x))
+
+print('Chain Rule function: ')
+display(fx)
+
+print('Derivative:')
+display(sym.diff(fx))
+```
