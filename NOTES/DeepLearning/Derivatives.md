@@ -2,6 +2,8 @@
 
 # Derivatives
 
+- See [python notebook](./derivative.ipynb) with code samples for plotting derivatives
+
 - There is a great [visualization in this video](https://www.udemy.com/course/deeplearning_x/learn/lecture/27841966#content) at 5:36 timestamp
 - Note this approach could be used to analyze the slope of rock formation contours?
 
