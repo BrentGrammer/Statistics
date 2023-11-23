@@ -1,5 +1,5 @@
 # Statistics, Probability and Machine Learning
-- Notes from following the courses:
+- Notes and exercises from following the courses:
   - [FastAI's Practical Deep Learning Course](https://course.fast.ai/)
   - [Statistics, Probability and Machine Learning](https://www.udemy.com/course/statsml_x/)
   - [Deep understanding of Deep Learning by Mike X Cohen](https://www.udemy.com/course/deeplearning_x/)
