@@ -4,6 +4,9 @@
 - Plural: Data
 - To reduce complexity of the universe into something we can try to understand, physical and biological data can be reduced to numbers that can be stored on a computer.
 
+- Good book on python tools for data (with data cleaning chapter): [Python for Data Analysis](https://wesmckinney.com/book/)
+  - covers tools like pandas and numpy
+
 ### Limitations of Data
 
 - Be careful about whether the data is actually measuring what you think it is
@@ -93,10 +96,10 @@ Most data you work with in practice is sample data. (it's usually not feasible t
 - Pilot Studies: sample of a small subset of individuals - to test that the experiment is working well
 - Proof of Principle: a little larger than a pilot study, gather just enough data to see if your experiment is on to something
 - Small-scale Studies: small N number studies (could include Pilot or Proof of principle studies)
-- Large-scale Studies: large N number studies (can be really large and consist of a very large quantity of data) 
-
+- Large-scale Studies: large N number studies (can be really large and consist of a very large quantity of data)
 
 ### Simulating Data
+
 - Allows for validating analysis methods
 - Learn pros and cons of different analysis methods
 - **Always tell the audience that data is simulated or faked if you are working with simulated data**
