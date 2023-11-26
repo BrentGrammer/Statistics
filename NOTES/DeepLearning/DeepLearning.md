@@ -146,6 +146,7 @@ To combat this:
 - Take the mean of the square of differences (which makes everything positive) and then take the square root (which undoes the squaring). This is called the root mean squared error (RMSE) or L2 norm.
 - Intuitively, the difference between L1 norm and mean squared error (MSE) is that the latter will penalize bigger mistakes more heavily than the former (and be more lenient with small mistakes).
 
+
 Pytorch code:
 
 ```python
@@ -182,3 +183,16 @@ F.l1_loss(a_3.float(),mean7), F.mse_loss(a_3,mean7).sqrt()
   - Involves the training of a model which can be used to make a prediction quickly 
 - The goal of linear regression is to find an equation that relates an independent variable to a dependent variable that you are trying to predict. "Given x in a dataset, we can predict y".
 - Using linear regression allows for as many independent variables as you need (you cannot do the same thing with spreadsheet trend lines etc. where you are limited to relating a single independent and dependent variable)
+
+### 2 Main Modeling Techniques:
+Recent studies have shown that the vast majority of datasets can be best modeled with just two methods:
+
+1. Ensembles of decision trees (i.e., random forests and gradient boosting machines), mainly for structured data (such as you might find in a database table at most companies)
+  - ensembles of decision trees tend to train faster, are often easier to interpret, do not require special GPU hardware for inference at scale, and often require less hyperparameter tuning. They have also been popular for quite a lot longer than deep learning, so there is a more mature ecosystem of tooling and documentation around them.
+  - Good for tabular data (except when important cols contain high cardinality data, i.e. a zip code which could have thousands of levels, 1 for each code etc., or if col is long text data)
+  - scikit learn is popular library for this kind of modeling
+1. Multilayered neural networks learned with SGD (i.e., shallow and/or deep learning), mainly for unstructured data (such as audio, images, and natural language)
+
+### Kaggle
+- Good resource for datasets and competitions as well as good blog posts etc.
+- see [chapter 9 in FastAI book](https://github.com/fastai/fastbook/blob/master/09_tabular.ipynb) for instructions on using Kaggle and setting up in Jupyter Notebooks.

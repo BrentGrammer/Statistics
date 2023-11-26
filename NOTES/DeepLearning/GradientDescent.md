@@ -1,30 +1,36 @@
 # Gradient Descent
 
+- The basic idea is to use the derivative of the loss functin (for example mean squared error curve) and get the slope of the loss func curve at given points. We get the slope at a point `b` (random guess) and use it as a signal for whether we increase or decrease `b` to reduce loss (descend on the loss curve).
 - "Gradient" is a term that is equivalent to "Derivative", but in the context of many dimensions (i.e., not just a one dimensional derivative). It is a collection of multiple partial derivatives with respect to all the dimensions of that function (see below).
 - "Descent" refers to following the derivative down to get to the loss function minimum (least error)
 - If the derivative is negative, you move positive (to the right) on the error landscape and vice versa.
 - The goal of the derivative in the gradient descent algorithm is to move towards a value of zero. The goal of the equation curve is to move towards the true local minimum of the function curve
+- Note that the slope value itself is not related to the parameter at all - only whether it is negative or positive is important as a signal to us to adjust the parameter up or down. The learning rate determines by how much and prevents overshooting (if using the slope directly)
 
 ### Loss Function
 
-- A standard loss function is the mean squared error. $${1\over n}\sum_{i=1}^n{(Guess_i - Actual_i)^2}$$
-  - Take the output of the model given a param (guess the value) and get the difference from that output to the actual value squared. Do this for every data point and sum up the results. Then multiply that result by 1 and divide by n data points.
+- A standard loss function is the mean squared error for the model function $Lotsize + b = Price$. $${1\over n}\sum_{i=1}^n{(Predicted_i - Actual_i)^2}$$
+  - Take the output of the model given a param (guess the value), take the predictions and get the difference from that output to the actual value squared, and take the mean by dividing by number of data points. Do this for every data point and sum up the results. Then multiply that result by 1 and divide by n data points.
   - see [video](https://www.udemy.com/course/machine-learning-with-javascript/learn/lecture/12279864#questions)
-  - example: `m * lot Size + b` (predicting prices of houses based on lot size, some multiplier m of the size and some b that is added to the price)
+  - example: `m * lot Size + b` (predicting prices of houses based on lot size, some multiplier m of the size and some b that is added to the price): Mean sqaured error would be: $${1\over n}\sum_{i=1}^n((m*x_i + b) - Actual_i)^2$$
 - Start with a random guess of a parameter(s) and calculate msqe and then take another guess at the parameter and calculate msqe to compare the result. This is the basic loop to figure out how to reduce loss.
 - Since the msqe method involved distance from the actual data points, it's unlikely it will every be 0. This would mean that the trend line is always exactly on the data points (which is unlikely since the data points will usually fall up or below a straight trend line.)
 
-### Derivatives
+### Derivative of the loss function
 
-- **Derivative**: The slope of a function curve at any given point. See [illustration](https://www.udemy.com/course/deeplearning_x/learn/lecture/27842092#questions/20865556)
-- **Partial Derivative**: In multi dimensional spaces/graphs you can measure the derivative of each dimension (axis) separately. These are partial derivatives (i.e. only the derivative of the slope on the x axis or just the y axis etc.). Answers "how is the function changing over x axis/dimension?" etc.
-  - You can take the two partial derivatives and put them in a list - this is the "Gradient"
-- Notation: $${df\over dx} = f'(x) = df$$
-- Partial Derivative: $${\partial f\over \partial x} = f_x(x) = \partial_x f$$
-  - the $\partial$ symbol is called a "del"
-- Gradient: $$\nabla = (\partial_x f,\partial_y f,...,\partial_z f)$$
-  - The NABLA symbol ($\nabla$) is used to indicate a gradient result
-  - Gradient is the collection of all the different partial derivates for the dimensions of the data.
+See [Derivates](./Derivatives.md) for background and notes.
+
+- For example, to get the slope of the loss function curve for the mean squared error (for $lotsize + b = Price$), the derivative would be: $${2\over n}\sum_{i=1}^n(b - Actual_i)$$
+- $b$ is the point or value where we want to get the slope of the loss function (i.e. a random guess to start with). $n$ is the number of values in the dataset.
+- We subtract the actual data value (i.e. house price if predicting house prices) from our guess `b` and sum all of those together (each data point subtracted from b), multiply that sum by 2 and divide by `n` data points (number of all points in the set)
+
+#### Additional example (multi-term model function):
+
+- The mean squared error function for $Price = mx + b$ is $${MSE} = {1\over n}\sum_{i=1}^n((m*x_i + b) - Actual_i)^2$$
+  - The derivative for the MSE of the multi-term with respect to $m$, would be:
+    $${d(MSE)\over dm} = {2\over n}\sum_{i=1}^n{-x_i(Actual = (mx_i + b))}$$
+  - The derivative for MSE with respect to $b$ would be:
+    $${d(MSE)\over db} = {2\over n}\sum_{i=1}^n((m*x_i + b) - Actual_i)$$
 
 ### Local minima
 
@@ -43,7 +49,7 @@ Note: it is impossible to visualize this on a graph beyond 2 dimensions.
   - (you can never be sure and have to rely on model accuracy) - use random weights and re-train the model many times.
   - increase the dimensionality and complexity of the model so that there will be fewer local minima
 
-
 ### Example of Gradient descent in action
+
 - Take housing prices and lot sizes - we want to predict the housing price based on a given lot size.
-- 
+-

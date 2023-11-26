@@ -12,6 +12,18 @@
   - It tells us if the function is increasing or decreasing and by how much
 - If the derivative is negative, then the curve of the function is going down, if it is positive, the curve is going up/increasing
 
+### Notation
+
+- **Derivative**: The slope of a function curve at any given point. See [illustration](https://www.udemy.com/course/deeplearning_x/learn/lecture/27842092#questions/20865556)
+- **Partial Derivative**: In multi dimensional spaces/graphs you can measure the derivative of each dimension (axis) separately. These are partial derivatives (i.e. only the derivative of the slope on the x axis or just the y axis etc.). Answers "how is the function changing over x axis/dimension?" etc.
+  - You can take the two partial derivatives and put them in a list - this is the "Gradient"
+- Notation: $${df\over dx} = f'(x) = df$$
+- Partial Derivative: $${\partial f\over \partial x} = f_x(x) = \partial_x f$$
+  - the $\partial$ symbol is called a "del"
+- Gradient: $$\nabla = (\partial_x f,\partial_y f,...,\partial_z f)$$
+  - The NABLA symbol ($\nabla$) is used to indicate a gradient result
+  - Gradient is the collection of all the different partial derivates for the dimensions of the data.
+
 ### Examples of derivatives
 
 - See [video](https://www.udemy.com/course/deeplearning_x/learn/lecture/27841964#content) at around 3:00
