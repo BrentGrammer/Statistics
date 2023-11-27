@@ -3,6 +3,7 @@
 ## Shannon Entropy (Entropy in Information theory)
 
 - Surprising things (less certain things) convey more information
+  - A sample of all the same values has an entropy of 0 (it is not surprising and predictable to get a value of x in all x's). A sample of completely random and unique values, the entropy is 1 (each value is the maximal surprise)
   - In information theory, "surprising" means things that are unpredictable and not just unexpected. Predictability is the key measure of "surprise". i.e. a coin toss is very surprising - it is 50% chance and unpredictable.
   - Entropy is the amount of "surprise" in a system. When the probability of an event is 0 or 1, then there is no surprise -- no uncertainty. Then the entropy is 0.
 - As you approach a probability value that represents more and more uncertainty, the entropy increases and therefore the more information the uncertain event conveys
@@ -67,6 +68,7 @@ plt.show()
 ```
 
 ### Computing Entropy from a Continuous Variable (code)
+
 - Important thing to remember is that entropy is very sensitive to the number of bins (in the historgram for converting data to probabilities).
   - less bins = less entropy
 
