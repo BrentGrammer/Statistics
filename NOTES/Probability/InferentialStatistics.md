@@ -380,3 +380,6 @@ $$E[X] = {\sum_{i=1}^n}x_ip_i$$
 - The average and expected value converge when drawing large and representative random samples from the population.
 - Geometrically speaking, the Expected Value is a "balance point" of a probability distribution. (think of balancing a spoon)
 - Expected value is a theoretical and the average is an empirical concept
+
+
+## Conditional Probability

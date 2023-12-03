@@ -10,7 +10,7 @@
 - [Data](./NOTES/DATA.md)
 - [Math Basics](./NOTES/MathPrerequisite.md)
 - [Python](./NOTES/PythonTips.md)
-- [Probability Theory](./NOTES/Probability/)
+- [Probability Theory](./NOTES/Probability/InferentialStatistics.md)
 - [Statistics](./NOTES/Statistics/)
   - [Descriptive Statistics](./NOTES/Statistics/Statistics.md)
   - [Accuracy, Precision and Resolution](./NOTES/Statistics/AccuracyPrecisionResolution.md)
