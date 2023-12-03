@@ -34,7 +34,8 @@
 
 ### Uniform Distribution
 
-- all values within a range are equally likely to occur, values outside that range are not at all likely to occur
+- all values within a range are equally likely to occur, values outside that range are not at all likely to occur.
+  - On a histogram this distribution has no definite peak and is "flat"- all values are roughly equally likely to appear.
 
 ### t Distribution
 

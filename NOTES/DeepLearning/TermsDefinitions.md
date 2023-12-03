@@ -1,10 +1,14 @@
 # Terms
 
-- **Supervised Learning:** A type of machine learning where the algorithm is trained on a labeled dataset, meaning the input data is paired with corresponding target labels. The goal is to learn a mapping from inputs to outputs.
+- **Supervised Learning:** A type of machine learning where the algorithm is trained on a labeled dataset, meaning the input data is paired with corresponding target labels. The goal is to learn a mapping from inputs to outputs. Given input X, predict output Y
 
-- **Unsupervised Learning:** A type of machine learning where the algorithm is given unlabeled data, and its task is to find patterns or relationships within the data without predefined target labels.
+- **Unsupervised Learning:** A type of machine learning where the algorithm is given unlabeled data, and its task is to find patterns or relationships within the data without predefined target labels. Just given input X - analyzing the structure of the data
 
   - Self-supervised learning: Training a model using labels that are embedded in the independent variable, rather than requiring external labels. For instance, training a model to predict the next word in a text.
+
+- **Linear Regression**: One way to find the line of best fit given a plot of data. It is a type of supervised learning and the output is a real number.
+
+- **Linear Model**: The sum of all Coefficients multiplied by data values. ax_1 + ax_2 + ax_3 etc
 
 - **Feature:** An input variable or attribute used by a machine learning model to make predictions. Features are the characteristics of the data that the model learns from.
 

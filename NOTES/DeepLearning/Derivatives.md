@@ -38,6 +38,10 @@
 ### Slope
 
 - The derivative indicates the rate of increase or decrease, or "slope" of the function curve.
+  - Increasing Function:
+    - If f(x) is an increasing function, it means that as you move from left to right along the x-axis, the values of f(x) are getting larger. The slope of the function (derivative) is positive.
+  - Decreasing Function:
+    - If f(x) is a decreasing function, it means that as you move from left to right along the x-axis, the values of f(x) are getting smaller. The slope of the function (derivative) is negative.
 
 ### Computing a Derivative (of a polynomial)
 

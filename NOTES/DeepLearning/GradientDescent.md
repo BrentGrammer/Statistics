@@ -1,6 +1,9 @@
 # Gradient Descent
 
-- The basic idea is to use the derivative of the loss functin (for example mean squared error curve) and get the slope of the loss func curve at given points. We get the slope at a point `b` (random guess) and use it as a signal for whether we increase or decrease `b` to reduce loss (descend on the loss curve).
+## The Goal
+- The goal is to find what parameter(s) can be plugged into the model so that the derivative of the loss function is or close to zero (no or close to no slope).
+  - If input to the model causes loss to increase, then the derivative of the loss fn will move further from zero (either away from or to zero). This will tell you which direction to move the parameter (either increase or decrease it to get the derivative of the loss closer to zero).
+- The basic idea is to use the derivative of the loss function (for example mean squared error curve) and get the slope of the loss func curve at given points. We get the slope at a point `b` (random guess) and use it as a signal for whether we increase or decrease `b` to reduce loss (descend on the loss curve).
 - "Gradient" is a term that is equivalent to "Derivative", but in the context of many dimensions (i.e., not just a one dimensional derivative). It is a collection of multiple partial derivatives with respect to all the dimensions of that function (see below).
 - "Descent" refers to following the derivative down to get to the loss function minimum (least error)
 - If the derivative is negative, you move positive (to the right) on the error landscape and vice versa.
@@ -9,7 +12,10 @@
 
 ### Loss Function
 
+#### Mean Squared Error
+
 - A standard loss function is the mean squared error for the model function $Lotsize + b = Price$. $${1\over n}\sum_{i=1}^n{(Predicted_i - Actual_i)^2}$$
+  - The reasoning behind this is that we take the difference between the predictions and the actual data, and add square to eliminate negative values cancelling out positive values (we want all differences to contribute to the error). So the idea is we compare the result of the model given unknown variables to what the predictions would be given the same unknown variables fed into the model.
   - Take the output of the model given a param (guess the value), take the predictions and get the difference from that output to the actual value squared, and take the mean by dividing by number of data points. Do this for every data point and sum up the results. Then multiply that result by 1 and divide by n data points.
   - see [video](https://www.udemy.com/course/machine-learning-with-javascript/learn/lecture/12279864#questions)
   - example: `m * lot Size + b` (predicting prices of houses based on lot size, some multiplier m of the size and some b that is added to the price): Mean sqaured error would be: $${1\over n}\sum_{i=1}^n((m*x_i + b) - Actual_i)^2$$
@@ -49,7 +55,8 @@ Note: it is impossible to visualize this on a graph beyond 2 dimensions.
   - (you can never be sure and have to rely on model accuracy) - use random weights and re-train the model many times.
   - increase the dimensionality and complexity of the model so that there will be fewer local minima
 
-### Example of Gradient descent in action
+### Linear Regression
 
-- Take housing prices and lot sizes - we want to predict the housing price based on a given lot size.
--
+- Useful for fitting a line to data points that resemble a line (if the data points plotted do not roughly form a line then this may not be an appropriate method to apply)
+- Deals with numerical data (the output is a real number)
+- Is a form of supervised learning
