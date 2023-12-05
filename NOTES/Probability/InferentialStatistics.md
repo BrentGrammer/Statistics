@@ -1,5 +1,6 @@
 # Inferential Statistics (Probability)
 
+- The goal in Inferential Statistics is to determine the Signal to Noise Ratio.
 - Inferential Statistics is all about probability
 - **Probability**: numerical description of how likely an event is to occur or how likely it is that a proposition is true.
   - A number between 0 and 1.
@@ -345,7 +346,7 @@ samplesizes = np.arange(30,1000) # [30,31,32,...,999]
 samplemeans=np.zeros(len(samplesizes))
 
 for sampi in range(len(samplesizes)):
-  sampleidx = np.random.randint(0,populationN,samplesizes[sampi])
+  sampleidx = np.random.randint(0,populationN,samplesizes[sampi]) # (start,end,number to generate)
   samplemeans[sampi] = np.mean(population[sampleidx])
 
 # plot the sample means agains the true population mean to see if as the sample size gets larger, the sample mean converges with the true mean
@@ -364,7 +365,7 @@ np.mean(samplemeans[:12]) # even with only twelve sample means, the mean of thes
 
 ## Expected Value
 
-$$E[X] = {\sum_{i=1}^n}x_ip_i$$
+$$E[X] = {\sum_{i=1}^n}x_i p_i$$
 
 - $E[X]$ is the expected value of the sample $X$
 - $x_i$ is the i-th index in the data set, $n$ is the total number of elements in the sample, $p_i$ is the probability of observing value $x_i$
@@ -372,7 +373,8 @@ $$E[X] = {\sum_{i=1}^n}x_ip_i$$
 ### Average vs. Expected Value
 
 - Average: an empirical sample estimate based on a finite set of data.
-- **Expectation Value:** the expected average in the population, or from a very very large number of samples (approacing infinity)
+- **Expectation Value:** the expected average in the population, or from a very very large number of samples (approaching infinity)
+  - Does NOT involve sample data.
   - The average of the population, or the average of a very large number of samples from the population
   - Example: the expected value of a weighted die (1,2 have .25 p and 3,4,5,6 have .125 probability) is 3. This is different from the average (you need sample die rolls for the average)
   - If you were to repeat many series of dice throws (say 8 dice throws) and take the average outcome of all those roll samples, then you'd expect it to converge with the expected value. (but the average of a sample is not the same as the expected value)
@@ -381,5 +383,103 @@ $$E[X] = {\sum_{i=1}^n}x_ip_i$$
 - Geometrically speaking, the Expected Value is a "balance point" of a probability distribution. (think of balancing a spoon)
 - Expected value is a theoretical and the average is an empirical concept
 
-
 ## Conditional Probability
+
+- Good example in [video](https://www.udemy.com/course/statsml_x/learn/lecture/20014676) at timestamp 9:40
+- Probability that is calculated given additional information
+  - The probability of event A **changes** based on what you know about event B
+- What is the probability that you will pass your final exam? vs. What is the probability you will pass your final exam, given that you've been studying for weeks?
+
+### Formula
+
+$$P(A|B) = {P(A\cap{B})\over P(B)}$$
+
+- The probability of A given B ($A|B$), is the probability of A and B (the "intersection" of: $A \cap B$, i.e. A and B co-occurring) divided by the probability of B overall.
+- if the probability of P(A|B) is identical or close to P(A), then it tells you there is little no relationship between A or B (see independence).
+- Example: if P(A|B) = 1, then if we know B, we know A with certainty. If P(B|A) = 0.25 (and P(B) = 0.09), then it means A is somewhat informative about B, but not very much (though we know more about the probability of B given A then just given B alone..).
+
+#### INDEPENDENCE
+
+- If two events are independent of each other (A and B), then the probability of those events A and B is equal to the probability of A times the probability of B: $P(A\cap{B}) = P(A) * P(B)$
+- If A and B are NOT independent, then the formula is conditional probability as stated above: $P(A|B) = {(A\cap{B})\over{P(B)}}$
+- NOTE: if A and B never co-occur, then the probability of A given B is zero! Their intersection is 0.
+  - This is different than if A and B are INDEPENDENT! In this case the probability is just The probability of A ($P(B)$ cancels out in the numerator/denominator), so the probability of A given B should just be the P of A (B is not related)
+
+### Code: Conditional Probability
+
+```python
+# long-spike time series (think of binaries as 0 is days that are sunny, 1 is days that are completely rainy)
+N = 10000
+spikeDur = 10 # duration of the plateau (x-axis) shown on the plot
+spikeNumA = .01 # proportion of data that is in time series A
+spikeNumB = .05 # proportion of data that is in time series B (so we'll have more spikes in time series B vs. time series A)
+
+spike_tsA = np.zeros(N)
+spike_tsB = np.zeros(N)
+
+# populate time series A
+spiketimesA = np.random.randint(0,N,int(N*spikeNumA)) # gen rand integers that are the spike centers
+
+for spikei in range(len(spiketimesA)):
+  # find boundaries - this accounts for where we have spikes near the boundaries and prevents us from getting an indexing error if we get a spike center that is really close to the spike beginning or end point in the time series
+  bnd_pre = int(max(0,spiketimesA[spikei]-spikeDur/2))
+  bnd_pst = int(min(N,spiketimeA[spikei]+spikeDur/2))
+
+  # zeroes get turned into 1s:
+  spike_tsA[bnd_pre:bnd_pst] = 1
+
+
+# populate time series B
+spiketimesA = np.random.randint(0,N,int(N*spikeNumA)) # gen rand integers that are the spike centers
+# you can optionally simulate a strong conditional probability by forcing spike times to coincide
+spiketimesB[:len(spiketimesA)] = spiketimesA # the first N spikes in B are exactly same spikes as in A
+
+for spikei in range(len(spiketimesB)):
+  # find boundaries - this accounts for where we have spikes near the boundaries and prevents us from getting an indexing error if we get a spike center that is really close to the spike beginning or end point in the time series
+  bnd_pre = int(max(0,spiketimesB[spikei]-spikeDur/2))
+  bnd_pst = int(min(N,spiketimeB[spikei]+spikeDur/2))
+
+  # zeroes get turned into 1s:
+  spike_tsB[bnd_pre:bnd_pst] = 1
+
+#plot time series:
+plt.plot(range(N),spike_tsA,range(N),spike_tsB)
+plt.ylim([0,1.2]) # set y axis max range
+plt.xlim([2000,2500])
+plt.show()
+
+## Compute probabilities and intersection
+probA = sum(spike_tsA==1) / N # sum of total points that have a val of 1 divided by total points
+probB = np.mean(spike_tsB) # because the data is now 0s and 1s probability can be simplified to just taking the mean (same effect as probA code)
+
+# joint probability
+probAB = np.mean(spike_tsA+spike_tsB==2) # test for when combined time series is 2 (spike in both channels)
+
+### Note: everything up to this point has been mostly massaging the data to organize it for calculation - the methods here will not apply to other datasets and you need to organize your data as needed
+
+# compute conditional probabilities
+# p(A|B)
+pAgivenB = probAB / probB
+
+# p(B|A)
+pBgivenA = probAB / probA # scale by the probability of A in this case (B|A)
+
+# report
+print('P(A) = %g'%probA)
+print('P(A|B) = %g'%pAgivenB)
+print('P(B) = %g'%probB)
+print('P(B|A) = %g'%pBgivenA)
+
+# If Probability of B or A and their given conditional probability is the same, it means they have zero influence on each other.
+# If P(B|A) is 1,for example, then it means that if we know about A, we know about B (whenever A occurs, B will also occur)
+
+```
+
+### Visualizing Conditional Probabilities with Trees
+
+- See [video](https://www.udemy.com/course/statsml_x/learn/lecture/20014684#content) for visual ex.
+- Nodes are events/possible outcomes and the two braches from each node must sum to 1.
+- probabilites are given along the edges from point X to point Y and represent the probability of Y given X.
+- The probability of a specific node or point D for example (i.e. not given anything else), would be the probability of point A _ P(D) + P(B) _ P(D) (you need to multiply and sum the probabilities/branches)
+  - see timestamp 5:30 in video
+

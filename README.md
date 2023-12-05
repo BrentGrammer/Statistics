@@ -1,4 +1,5 @@
 # Statistics, Probability and Machine Learning
+
 - Notes and exercises from following the courses:
   - [FastAI's Practical Deep Learning Course](https://course.fast.ai/)
   - [Statistics, Probability and Machine Learning by Mike X Cohen](https://www.udemy.com/course/statsml_x/)
@@ -16,5 +17,6 @@
   - [Accuracy, Precision and Resolution](./NOTES/Statistics/AccuracyPrecisionResolution.md)
   - [Distributions](./NOTES/Statistics/Distributions.md)
   - [Measures of Central Tendency (mean, median, mode)](./NOTES/Statistics/MesauresOfCentralTendency.md)
+  - [Hypothesis Testing](./NOTES/Statistics/HypothesisTesting.md)
 - [Data Visualizations](./NOTES/DataVisualizations/)
 - [Deep Learning](./NOTES/DeepLearning/)

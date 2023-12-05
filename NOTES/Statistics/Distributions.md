@@ -14,9 +14,10 @@
 
 ## Common distributions:
 
-### Power Law Distributions
+### Power Law Distributions (1 over F Distribution)
 
 - characteristic of a dataset where the number/strength of occurances (say on the x axis) is inversely related to the count/magnitude of the occurances (say on the y axis).
+- Larger values are less frequent in the data, and conversely smaller values are more frequent in the data.
 - Example: Earthquakes (magnitude vs. frequency). There is a large number of weak earthquakes and as you get stronger earthquakes there are fewer and fewer of them.
 
 ### Gaussian
