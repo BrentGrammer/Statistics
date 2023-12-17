@@ -44,9 +44,9 @@ $$t_k = {{(\bar{x} - \bar{y}) * \sqrt{n}} \over s}$$
 - If we're dealing with noisy dataset groups with high variability, then we want to look for effects that are large in magnitude so we don't mistake the noise for indications that the alternative hypothesis is correct when it's not.
   - Example: If we're studying a group of patients between the ages of 60 and 70 with a certain condition, the sample size $n$ is going to be small and hard to find people fitting the requirement. So we need to make sure that either the effect size is large ($\bar{x}-\bar{y}$), or the variability is small (smaller $s$), since we can't increase our T-value based on $n$.
 
-## Types of T-tests
+# Types of T-tests
 
-### One-sample t-test
+## One-sample t-test
 
 - Testing whether a set of numbers could have been drawn from a distribution with a specific mean.
 - We do not test multiple groups - there is just one group under test with no alterations to the samples of group, it is a one shot experiment.
@@ -70,6 +70,23 @@ $$t_n-1 = {\bar{x}-\mu \over s/\sqrt{n}}$$
   - Data is randomly drawn from the population to which the generalization should be made.
 - The data under test is roughly normally distributed (the mean and std dev are valid descriptors of central tendency and dispersion)
 
-## Code: One Sample T-test
+### Code: One Sample T-test
 
 [see Code in Notebook](statsML\ttest\stats_ttest_oneSampleT.ipynb)
+
+## Two-samples t-test
+
+- Purpose is to test whether two sets of numbers vould have been drawn from the same distribution (the null hypothesis we are testing against).
+- Example
+  - Informal statement (what you would say to non-statisticians): Test whether self-reported stress levels changed after 6 weeks of social distancing.
+  - Formal statement (precise statement to statisticians): Estimate the probability that self-reported stress levels before and after 6 weeks of social distancing were drawn from the same distribution. (note: the same distribution means the null hypthesis distribution)
+
+### Formula
+
+- The formula can change depending on:
+  - whether the groups are paired or unpaired: whether two groups of data are drawn from the same or different individuals
+    - Paired example: Always testing against the same individuals: the same individuals self-report their stress levels before and after social disancing
+    - Unpaired example: testing against different individuals in the two groups: looking at change in stress from social distancing between two different countries or two different people/individuals
+  - have equal or unequal variance: whether the two groups have roughly equal variance. (if groups are similar or different significantly from each other in variability)
+  - have matched or different sample sizes: whether the number of data points in both groups are the same (applies only to unpaired groups, obviously paired samples will have the same number of data points/same individuals)
+- Note: in practice these formulas are taken care of by the python libraries you use. The important thing you need to know is the characteristics of your data (i.e. are they paired/unpaired, variance differences, etc.)

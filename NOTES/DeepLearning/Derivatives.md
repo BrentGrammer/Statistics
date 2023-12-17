@@ -2,6 +2,10 @@
 
 # Derivatives
 
+- A rise over run measurement of a function: measures the rate of change or slope is between two points on a function's plot is where the distance between the two points is infinitessimally close to zero (the limit as delta x approaches zero).
+  - Rise: the rate of change
+  - Run: The distance between a point and another point on the function plot (usually the distance is infinitesimally small to get the rate of change as close to a point as possible)
+
 - See [python notebook](./derivative.ipynb) with code samples for plotting derivatives
 
 - There is a great [visualization in this video](https://www.udemy.com/course/deeplearning_x/learn/lecture/27841966#content) at 5:36 timestamp
