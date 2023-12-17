@@ -54,6 +54,19 @@ df['LogFare'] = np.log(df['Fare']+1) # log(0) = NaN, so add +1 to avoid that.
 
 - Find unique values in a col: `uniq = df.Colname.unique()`
 
+### Using index_col
+
+- If you pass in the index_col arg, you can specify a column that you can index into on the dataframe as if it were a dictionary. You then get the information for that row:
+
+```python
+# pass in index_col=col_name
+df = pd.read_csv(path/'train.csv', index_col='image_id')
+df.loc['some-img-id'] # get the row for that id since it's indexed
+# you can optionally pass in a column
+df.loc['some-img-id', 'my-col'] # returns data value at the row for some-img-id at the column 'my-col'
+
+```
+
 ### Good code to study for overview of useful pandas features:
 
 ```python
@@ -257,4 +270,17 @@ def update_coeffs(coeffs,lr):
   for layer in coeffs: layer.sub_(layer.grad *lr)
 
 train_model(lr=1.4) # all the learning rates and constants were just fiddled with to get "right"
+```
+
+## Kaggle
+
+- You can clean garabage collection and empty the CUDA cache with pytorch and you don't have to restart the kernel in Kaggle editor:
+
+```python
+import gc
+def report_gpu():
+  print(torch.cuda.list_gpu_processes())
+  gc.collect() # garbage collector
+  torch.cuda.empty_cache()
+
 ```

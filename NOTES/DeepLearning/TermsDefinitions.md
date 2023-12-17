@@ -134,3 +134,5 @@ A: If you are philosophically minded it is somewhat dizzying to contemplate the 
   Go back to step 1, but instead of using the original targets, use the residuals as the targets for the training.
   Continue doing this until you reach some stopping criterion, such as a maximum number of trees, or you observe your validation set error getting worse.
   Note that, unlike with random forests, with this approach there is nothing to stop us from overfitting. Using more trees in a random forest does not lead to overfitting, because each tree is independent of the others. But in a boosted ensemble, the more trees you have, the better the training error becomes, and eventually you will see overfitting on the validation set.
+
+- **Embedding**: Looking something up in an array

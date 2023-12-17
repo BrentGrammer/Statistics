@@ -60,3 +60,8 @@ Note: it is impossible to visualize this on a graph beyond 2 dimensions.
 - Useful for fitting a line to data points that resemble a line (if the data points plotted do not roughly form a line then this may not be an appropriate method to apply)
 - Deals with numerical data (the output is a real number)
 - Is a form of supervised learning
+
+### Gradient Accumulation
+- batching data samples (iterating over them) and adding the gradients to weights.
+- This allows you to use cheaper GPUs that have smaller amounts of memory. The technique is useful with large sets of data with GPUs that might run out of memory space processing it.
+- RTX consumer Nvidia cards are good and cheaper than enterprise GPUs. (Note: You cannot use consumer cards in a data center due to licensing.)
