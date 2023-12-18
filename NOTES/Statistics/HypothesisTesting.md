@@ -72,7 +72,8 @@
 - A finding is statistically significant if the probability of a test statistic is greater than a threshold. If $p(H_A) < p(a)$ where $a$ is the sigficance threshold on the x-axis of the null hypothesis distribution plot.
   - The thresholds are arbitrary
   - sometimes called alpha $a$
-  - Common thresholds used are .05 or .01 (probability of 5 or 1 percent)
+  - Common thresholds used are .05 or .01 (probability of 5 or 1 percent of alpha, or confidence level of 95% or 99%)
+    - The higher confidence level means we want to be more sure that our findings indicate the null hypothesis is false. i.e. if our CL is 99%, it means we expect to make an error in judging the conclusion of the hypothesis 1% of the time (Type I or II errors)
   - for a result to be considered statistically significant, the p-value should be smaller than the alpha level
 - Note the TAILS (each side) of the Null Hypothesis distribution is unlikely.
   - If the Null Hypothesis is true, you're unlikely to get test statistic values ($H_A$ value) in the tails of the $H_0$ distribution.
@@ -118,7 +119,7 @@
 
 #### P-Z pairs for two-tailed tests:
 
-- Note: generally in tests, you want to do a two tailed test unless special reason to do a one tailed test.
+- Note: generally in tests, you want to do a two tailed test unless special reason to do a one tailed test (they are more conservative and do not assume directionality).
 - `p=0.5 <=> z=+/-1.96`
   - the statistic observed must be 1.96 std dev from the mean of the H_0 distribution on the right or left of it.
 - `p=.01 <=> z=+/-2.58`

@@ -90,3 +90,57 @@ $$t_n-1 = {\bar{x}-\mu \over s/\sqrt{n}}$$
   - have equal or unequal variance: whether the two groups have roughly equal variance. (if groups are similar or different significantly from each other in variability)
   - have matched or different sample sizes: whether the number of data points in both groups are the same (applies only to unpaired groups, obviously paired samples will have the same number of data points/same individuals)
 - Note: in practice these formulas are taken care of by the python libraries you use. The important thing you need to know is the characteristics of your data (i.e. are they paired/unpaired, variance differences, etc.)
+
+### Code
+
+- See [notebook](statsML\ttest\stats_ttest_twoSampleT.ipynb)
+
+## Wilcoxon Signed-Rank Test (a.k.a. the Signed Ranked Test)
+
+- A nonparametric T-test that can be used when your data is not normally distributed
+  - Used as a alternative to the 1 or 2 sample paired t-test when dealing with non normally distributed data
+- Converts data into ranks so we test data ranks instead of data means
+  - The rankings wind up being assembled as a normal distribution an so we can use that to calculate p-values then.
+  - note that even if the original data distributions that the samples come from are different, their rank-transformed values will have the same distribution.
+- Tests for differences in medians instead of differences in means (insensitive to outliers using medians)
+- The algorithm is explained in this [video](https://www.udemy.com/course/statsml_x/learn/lecture/20025060#content) at timestamp 3:40
+  - Not necessary to memorize, computer programs will calculate for you in practice.
+
+### When to use
+
+- Data is not normally distributed
+- as an alternative to one sample t-test
+- as an alternative to a two sample t-test, but only when the samples are paired/dependent (same individuals)
+
+### Code
+
+- we use wilcoxon function from scipy stats package
+
+```python
+t,p = stats.wilcoxon(data1,data2)
+print('Wilcoxon z=%g, p=%g'%(t,p))
+```
+
+- The p value resulting tells us how likely that we would get a Z value of the Wilcoxon z= size shown if the two data samples were drawn from a distribution with the same median (instead of mean).
+
+  - i.e. if p = 0.042436, then it means there is roughly a 4% chance that the two datasets were from a distribution of the same median.
+
+- see [notebook](statsML\ttest\stats_ttest_signedRank.ipynb)
+
+## Mann-Whitney U Test (a.k.a. Mann-Whitney-Wilcoxon U Test, or Wilcoxon rank-sum test, or just U test)
+
+- A nonparametric t-test used as an alternative to a two samples t-test using data samples that are unpaired/independent
+- Like Wilcoxon test it is used when data being tested is not normally distributed.
+  - also uses conversion of data to ranks to normalize
+- Tests for median difference instead of mean (insensitive to outliers)
+- The two groups do not need to have the same sample size when using this test.
+
+### Code
+
+```python
+# use the mannwhitneyu() function from scipy stats package
+U,p = stats.mannwhitneyu(data1,data2)
+# if p is less than .05 you can draw the conclusion that the data likely come from populations with different medians (we reject the null hypothesis)
+```
+
+- See [notebook](statsML\ttest\stats_ttest_MannWhitneyU.ipynb)

@@ -18,5 +18,6 @@
   - [Distributions](./NOTES/Statistics/Distributions.md)
   - [Measures of Central Tendency (mean, median, mode)](./NOTES/Statistics/MesauresOfCentralTendency.md)
   - [Hypothesis Testing](./NOTES/Statistics/HypothesisTesting.md)
+    - [T-Tests](./NOTES/Statistics/T-Tests.md)
 - [Data Visualizations](./NOTES/DataVisualizations/)
 - [Deep Learning](./NOTES/DeepLearning/)
