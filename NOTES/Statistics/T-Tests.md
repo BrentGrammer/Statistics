@@ -21,7 +21,7 @@ $$t_k = {{(\bar{x} - \bar{y}) * \sqrt{n}} \over s}$$
 - What this generally measures is the diff of the means scaled or normalized by standard deviation: $\text{Difference of Means} \over \text{Standard Deviations}$
 
 ### Testing
-
+- T-value: an observed statistic data from a sample that you compare against a distribution of values from a null hypothesis distribution (values representing no effect) - you see where it falls on the null distribution to determine if significant or not.
 - Example test output for t-value and graph in [video](https://www.udemy.com/course/statsml_x/learn/lecture/20025050) at timestamp 6:40
 - Because of sampling variability, there will be a range of T values with a probability distribution that you could expect even if the null hypothesis were true. (on the y axis of a plot you'll see: $P(t|H_0)$, i.e. the probability of a t value occuring given that the null hypothesis is true)
   - If the null hypothesis is true, then we expect $\bar{x} - \bar{y}$ to be zero.
@@ -144,3 +144,32 @@ U,p = stats.mannwhitneyu(data1,data2)
 ```
 
 - See [notebook](statsML\ttest\stats_ttest_MannWhitneyU.ipynb)
+
+
+## Permutation Testing
+- A general framework for doing many different kinds of nonparametric statistics (including T-tests and correlations, etc.)
+- Difference is in how the statistical significance of the T-value is evaluated.
+  - No assumptions are made about the null hypothesis distribution (normally the H_0 distribution is formulaicly generated with python etc. - you do not derive it or determine it's shape etc.. it is an analytic distribution)
+  - Instead you compute the null hypothesis distribution based on data that you already have, then we compare our observed t-value statistic relative to this empirical distribution.
+- Does not require groups or samples to be the same size or be paired.
+
+### Generating the Empirical null hypothesis distribution:
+- Given two data groups (i.e. that could be unpaired), pool them together and strip them of any conditions (i.e. condition labels such as x number in this set are blue, and y number in the other set are orange etc. for example)
+  - We do not change the data, we just change the mapping of the condition labels to data values (we shuffle them randomly)
+- With a now shuffled pooled dataset, we compute a Statistic value with a t-test from the shuffled data
+  - note we don't worry about degrees of freedom of null hypothesis distribution assumptions here
+  - We continue to shuffle the data again and take multiple T-statistics to build up a distribution (to account for/compensate for random variability)
+  - After these iterations of shuffling and computing t-statistics, we end up with a normal distribution we can use as the null hypothesis
+- Now go back to the original data (before the shuffling) and compute a t-statistic (t-value) and compare how it relates to the generated null hypothesis distribution
+
+### Computing a P-value with Permutation Testing (2 ways)
+- Z-value approach (used for generated null hypothesis distributions that are roughly Gaussian): $$Z = {\text{obs}-E[H_0] \over std[H_0]}$$
+  - Take observed value $\text{obs}$ minus the mean of all the generated null hypothesis values in that distribution (iow, the expected value of H_0) $E[H_0]$ divided by the standard deviation of the null hypothesis distribution.
+  - Note that the observed value used here is not from the same distribution (H_0), so you can't just use the built in python functions even though this is similar to the Z-score formula, you have to know and use this formula.
+  - With the Z-value you can look it up on a normal probability distribution and convert it into a p-value.
+- P-value based on Counts: $$p_c = {\sum(H_0>\text{obs}) \over N_{H_0}}$$
+  - Sum up all of the null hypothesis values in the H_0 distribution that are greater than the observed test statistic, then divide that by the total number of null hypothesis tests run (i.e. 1000 permutations or whatever it was): $N_{H_0}$
+    - Example: if you have ten values in the null hypothesis distribution of a thousand permutations that are greater than an observed t-value, then your p-value is 10/1000 which is .01 or 1%
+    - Be careful about which side of the null distribution you're on - if on the left then it means a greater percentage of null hypothesis values are greater as opposed to the t statistic being on the right tail.
+
+### Coding Permutation Testing

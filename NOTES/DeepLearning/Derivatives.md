@@ -16,6 +16,12 @@
   - It tells us if the function is increasing or decreasing and by how much
 - If the derivative is negative, then the curve of the function is going down, if it is positive, the curve is going up/increasing
 
+
+### Slope of a line
+- To get the slope of a line we take the difference of two points on the y axis and divide by the corresponding difference of the x-axis points
+- IOW, the change of the dependent variable (y) scaled by the change of the independent variable (x)
+
+$${\text{slope} = {y_2 - y_1 \over x_2 - x_1}}$$
 ### Notation
 
 - **Derivative**: The slope of a function curve at any given point. See [illustration](https://www.udemy.com/course/deeplearning_x/learn/lecture/27842092#questions/20865556)
