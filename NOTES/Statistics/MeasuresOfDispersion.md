@@ -24,6 +24,26 @@
   - note: sometimes sigma squared $\sigma^2$ indicates population variance while the letter `S` ($s^2$) indicates sample vairance.
   - ex: [8,0,4,1,-2,7] - the variance is about 16, for [2,3,4,2,4,4] the variance is 0.67 (much smaller spread)
 
+#### Code
+
+```python
+import numpy as np
+
+# Calculate the variance
+variance = np.var(data)
+
+# By default, ddof is set to 1 in np.var, which calculates the sample variance (dividing by N - 1, where N is the number of data points). If you want to calculate the population variance (dividing by N), set ddof to 0.
+
+# Calculate the population variance
+population_variance = np.var(data, ddof=0)
+
+## can also use builtin standard statistics lib
+import statistics
+
+# Calculate the variance using statistics module
+variance = statistics.variance(data)
+```
+
 ### Sample vs. Population Variance
 
 - In Sample variance we divide by $n - 1$

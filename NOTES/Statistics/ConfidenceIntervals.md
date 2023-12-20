@@ -12,6 +12,26 @@
   - $\mu_{\bar{x_1}-{\bar{x_2}} = \mu_{1} - \mu_{2}}$
 - **NOTE**: A confidence interval around a sample mean does NOT gaurantee that the true mean of the population will lie within that range. Instead, the Confidence Interval tells us that if we repeat the experiment a large number of times, then 95% of those times, the true mean of the pop. will fall within the confidence interval range of the sample mean.
 
+### Interpreting Confidence Intervals
+
+- see [video](https://www.udemy.com/course/statsml_x/learn/lecture/20025094) and Q&A
+- Confidence intervals are NOT about confidence of a true population parameter, but about the sample estimate.
+
+  - Example: say that there is a 95% probability that the mean of the repeated sample will be in the range of 1 to 5, then the Confidence Interval calculated for the sample parameter is about the reliability of the parameter estimate and about the prediction of parameter values when taking a repeated samples.
+
+- The thing to keep in mind is that the interval is your confidence about the reproducibility of the estimate of the population parameter, not about the population parameter itself. So, how confident can you be about whether a replication experiment will obtain the same estimate that you have found?
+- INCORRECT STATEMENTS (COMMON MISINTERPRETATIONS):
+  - "I am 95% confident that the population mean is the sample mean"
+    - Correct: "95% of confidence intervals in repeated samples will contain the true population mean". 95% of future experiments will contain confidence intervals that contain the true population mean.
+    - The incorrect statement indicates the pop mean will equal the sample mean which is wrong - there is an interval or range that the true pop mean can fall in.
+    - The statement is also wrong because it focuses on a single sample mean collected - the confidence interval is about many repeated experiments and sample means and how often the true pop mean will fall within a range over many experiments.
+  - "I am 95% confident that the population mean is within the confidence interval in my dataset".
+    - This is incorrect because the confidence interval refers to the estimate and not the population parameter (the mean itself). It's about the confidence you can have about the estimation procedure of your sample estimate. i.e. how confident are you about the mean in your dataset, not the population parameter.
+    - 95% of the repititions of experiments will have confidence intervals that include the population mean. The dataset being used and sampled might not contain the population parameter, 95% of repeated experiments will contain the population parameter, but yours might not be one of those.
+    - The confidence interval tells us about our confidence about the precision of our estimate of the sample parameters.
+  - "Confidence intervals for two parameters overlap; therefore, they cannot be significantly different"
+    - whether confidence intervals overlap tells us nothing about statistical significance. They are the estimate of a parameter (i.e. mean etc.), and not about the relationship between parameters.
+
 ### Formula
 
 $$P(L < \mu < U) = c$$
