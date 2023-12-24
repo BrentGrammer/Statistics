@@ -55,6 +55,7 @@
 - [video](https://www.udemy.com/course/statsml_x/learn/lecture/20023398#content)
 - A p-value (Probability Value) is the probability of observing a data point from your sample data given that the null hypothesis is actually true.
   - If you observe a value in your data that is unlikely to occur given the null hypothesis then you say that is statistically significant effect.
+  - a low p-value means there is a low probability of the statistic being observed given the null hypothesis (so it is significant and is evidence of your alternative hypothesis)
 - In practice, you will have one value for the Alternative Hypothesis that you will compare with the Null Hypothesis distribution (i.e. where does it land on it?)
 - How likely is the $H_A$ value occuring if the Null Hypothesis is true? Or, What is the probability of observing a paremeter estimate of $H_A$ or larger, given that there is no true effect?
   $$p-value = P(H_A|H_0)$$
@@ -125,7 +126,6 @@
 - `p=.01 <=> z=+/-2.58`
 - `p=0.001 <=> z=+/-3.29`
   - to reiterate, if you choose a 0.001 p-value threshold to determine statistical significance, then the observed data point must be more than 3.29 std dev on either side of the mean of the null hypothesis distribution in order to be considered statistically significant.
-
 
 ## Statistical Errors
 

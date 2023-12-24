@@ -4,7 +4,8 @@ Used very commonly in Statistics.
 
 ## What is a T-Test?
 
-- The main idea is to compare two means from two different groups
+- The main idea is to compare two means from two different groups (how does the average of one group compare to the average of another)
+  - Individuals and their differences in the groups are ignored - we are focused on the overall averages
   - Example: The alternative hypothesis would be that the mean of group A is different from the mean for group B. (The null hypothesis of a T-test would be that the means of two groups are equal/not different. In other words, you could shuffle the data from each group into the other and still get the same means afterwards.)
   - It's possible to test a group of data against an empty group (implicitly it means we are testing for a mean of 0). i.e. we test whether a vitamin makes people happier (yes or no) - we test that the group with the vitamin has an effect/mean greater than zero.
 
