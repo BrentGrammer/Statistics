@@ -105,5 +105,133 @@ r,p = stats.pearsonr(x,y)
 - Useful for larger matrices with lots of variables - helps to visualize and saves space since you do not have room to print out the numbers if there are lots of them.
 
 ### Coding Correlation/Covariance Matrices
+
 - See [notebook](../../statsML/correlation/stats_corr_corrMatrix.ipynb)
 
+## Partial Correlations
+
+- Getting the correlation between two variables in a multi-variate scenario (i.e. variables is 3 or more) where you exclude the other variables.
+- In a multivariate scenario there could be indirect correlations between variables. A partial correlation could isolate a more direct relationship of a set of variables within the multi-variate scenario
+- The greek character rho is used for partial correlation notation ($\rho$)
+- When we isolate partial correlations, we say that we partialize out another variable relationship.
+  - A partial correlation of a and x while partialializing out z: ${\rho_{ax|z} = 0.5}$
+  - If we have a partial correlation that can be computed but is irrelevant to our study then the result could be written as **NA** instead of a decimal.
+
+### Code: Partial Correlations
+
+- Use the `pingouin` package.
+  - (scipy,numpy and pandas does not have a built in partial correlation function)
+  - `pc = pg.partial_corr(df,x='x3',y='x2',covar='x1')`
+- see [notebook](../../statsML/correlation/stats_corr_partialCorrs.ipynb)
+
+## Types of Correlations
+
+### Pearson Correlations
+
+- The correlations computed up to this point above are all Pearson correlations.
+- Only appropriate measure for the linear relationship between two (roughly) normally distributed variables/data that do not contain outliers. (small outliers might be okay)
+- Potential problem with Pearson correlation is that it can over or underrepresent relationships if they contain nonlinearities or outliers:
+  - illustrated in the **Anscobe's quartet**
+    - See [video](https://www.udemy.com/course/statsml_x/learn/lecture/20025118#content) at around 1:15
+    - The Pearson correlation may not be optimal when dealing with nonlinear relationships and data (i.e. if the data has a nonlinear curve to it)
+    - Another problem scenario is when a set of data is very highly correlated except for one outlier very far away which skews and pulls the Pearson correlation badly.
+
+### Spearman (rank) Correlation (a.k.a. Spearman's rho)
+
+- Dominant nonparametric correlation method altervative to the Pearson correlation
+- Robust to and useful for dealing with data with outliers
+- Looks identical to Pearson correlation when data are linear and normally distributed.
+- Tests for a monotonic relationship regardless if the true relationship is linear or nonlinear.
+  - Monotonic relationship: tests for increasing or decreasing numbers regardless of the spacing between the numbers.
+    - Example: monotonic increase - Every point is higher than the previous point
+    - montonic decrease - every point is lower than the previous one
+    - a relationship is non-monotonic if the consecutive data points go up and down and are not consistently greater or less than in longer sequences.
+
+### How Spearman Correlation works:
+
+- Transform both variables to rank
+  - i.e. [33233,-40,1,0] transforms to [4,1,3,2]
+  - Transforming the data to rank eliminates the effect of outliers (i.e. 33233 distance from other data points no longer matters)
+  - Note that in practice you might just remove the 33233 data point since it is such an extreme outlier and might not be useful or meaningful. But, if you have situations with outliers that may still be meaningful then you opt for the Spearman method.
+- Then compute the Pearson Correlation Coefficient on the ranks
+- P value for statistical significance is the same as computing it for the Pearson Correlation coefficient.
+
+## Fisher-Z Transformation for Correlations
+
+- Used when you are pooling a collection of multiple correlations together to run analysis on them.
+  - You then want to run subsequent analysis that makes assumptions about normal distributed data like a t-test or ANOVAs etc.
+  - Fisher-z transform is usually used when testing whether a sample of correlation coefficients is significantly different from r=zero.
+- Correlations may need to be transformed for further use in some situations
+  - i.e. when you are doing analysis on a collection of correlation coefficients
+    - A distribution of correlation coefficients is uniformly distributed (not normally distributed)
+    - If the end goal of the analysis is to just determine the correlation coefficient, then no transformations are necessary...
+    - But, there are many statistical methods that assume normally or Gaussian distributed data, so if you are goin analysis on a collection or distribution of correlation coefficients, you can transform them to a gaussian scale
+
+### Formula for the Fisher-Z transformation:
+
+$$z_r = {1 \over 2}ln({1+r \over 1-r})$$
+
+- z-tranform of correlation coefficient `r` is 1/2 of the natural log of 1+r divided by 1-r
+  - note that the log of a negative number does not exist in the real number world
+  - the log of a number between 0 and 1 is going to be a negative number
+  - the log of a number that's greater than 1 is going to be a positive number
+  - So, **when $({1+r \over 1-r})$ is greater than one, then the result of the fisher-z transform will be positive, and when that part is between 0 and 1, then the result will be negative**
+- Note that this formula is the inverse hyperbolic tangent (inverse of the arc) of the correlation coefficient ($\text{arctanh}(r)$)
+
+### Code: Fisher-Z transformations (and Spearman correlation method)
+
+- see [notebook](../../statsML/correlation/stats_corr_Spearman.ipynb)
+- use scipy stats package for spearman correlation: `corr_s = stats.spearmanr(anscombe[:,i*2],anscombe[:,i*2+1])[0]`
+  - this automatically rank transforms the data for you and gets the correlation
+- Fisher-Z transform:
+
+```python
+# Fisher-Z - use inverse hyperbolic tangent built into numpy which is equivalent to fisher z transform, pass in correlation vals
+fz = np.arctanh(r)
+```
+
+## Kendall's Correlation
+
+- Specifically used only if you have ordinal data (categorical data that is not intrinsically numeric with no fixed relationship across levels)
+  - i.e. for education levels (Middle School, High School, Bachelor's degree, Masters degree)
+  - movie ratings (i.e. 1 to 5 stars), the difference between one and two stars is not the same as the diff between 4 and 5 stars. You also cannot sum them together (multiple one star ratings cannot sum them together to get a 5 star rating.)
+- We transform the data to rank concordances (this means "agreement" between two things)
+  - relative signs across the values per variable
+- Two versions of the Kendall Correlation:
+  - Kendall tau-b: includes an adjustment for ties and is most often used.
+  - Kendall tau-a: uses a simplified normalization factor which can underestimate the true correlation in the data.
+  - The R when using Kendall correlation method is called the Kendall Tau ("Taow")
+    - the value is interpreted same as Pearson correlation - -1 is negative correlation, 0 is no correlation and 1 is positive correleation
+    - same characteristics of other correlations apply: i.e. if you have modest correlation that is not statistically significant given small N number of samples, but if you add more and more data sampled the p-value gets smaller and smaller.
+
+### Formula
+
+$$t = K^{-1}\sum \text{sgn}(x_i-x_{i:})\text{sgn}(y_i-y_{i:})$$
+
+- $\text{sgn}$ is the signum or sine function - returns -1 for any negative num, 0 for 0 and +1 for any positive number
+- x and y are the two variables (the rank version of them)
+- We compute the sine value of data point i relative to the points in the rest of the data ($x_{i:}$ means index i up until the end of the vector)
+- The idea is we want to know if x at point i is relatively large or small compared to the other ranked transformed elements of x.
+  - so when the points x or y at i are relatively small to the rest, the multiplication of the two sine functions for them will yield a positive number
+  - if x/y at the i-th point in the data is relatively large compared to the other points then the two sine functions operate on a positive number.
+  - So when x/y is either relatively large or small to the rest of the distribution, the sum $\sum$ grows and gets larger and is positive.
+  - If x is relatively high and y is relatively low alternatively, we'll have the sine functions taking in positive and negative yield results - this gives us negative numbers to sum up which will decrease $\sum$ overall
+    - Note that $\sum$ is not bound by 1, so it will be some integer value that could be arbitrarily large. This is why we use the normalization $K^{-1}$. K is designed to be the maximum possible value that everything to the right of it in the formula (the whole rest of formula result) could be if there were 100% concordances (this scales it down to 1). K is also adjusted for the ties.
+      - see [video](https://www.udemy.com/course/statsml_x/learn/lecture/20025130) at 9:40
+
+### Code: Kendall Correlation
+
+- use scipy stats function: `cr[0] = stats.kendalltau(eduLevel,docuRatings)[0]`
+- see [notebook](../../statsML/correlation/stats_corr_Kendall.ipynb)
+
+## Simpson's Paradox (Sub-group correlation paradox)
+
+- If you take a group of data that is highly correlated and split it into groups and look at the correlation inside each group separately, you can find that there is no correlation.
+  - But, paradoxically if you look at the groups together in aggregate you can find a strong linear relationship with high correlation.
+  - You can also find instances where each group has a negative correlation
+- This can lead to misleading conclusions that are incorrect.
+- If you encounter this in your data, you need to make a decision about whether the sub groups are qualitatively distinct from each other.
+  - If they really are distinct, then maybe the sub groups come from different samples/populations or have some underlying fundamental difference
+  - If it is determined they really are separate categorically then it is more appropriate to interpret the correlations of the sub groups individually and ignore the aggregate correlation.
+  - If the groups are actually closely related and there is no justification for splitting, then you need to ignore the sub group correlation and use the aggregate correlation.
+- See [notebook](../../statsML/correlation/stats_corr_subgroups.ipynb) for examples of demonstrating this in code.

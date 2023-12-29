@@ -78,6 +78,15 @@ $\sum_{i=1}^n a_i$
   - $e$ raised to anything (including negative numbers) can never be zero (it can get asymptotically close, but never absolute zero)
   - see [lecture](https://www.udemy.com/course/statsml_x/learn/lecture/20009224)
 
+### Logarithms
+
+- How many times you multiply the base by itself to get the result
+  - log base 10 of 10 is 1 (10^1 = 10).
+  - log base 10 of 100 is 2 (10^2 = 100)
+- note that the log of a negative number does not exist in the real number world
+- the log of a number between 0 and 1 is going to be a negative number
+- the log of a number that's greater than 1 is going to be a positive number
+
 ### Natural Logarithm
 
 - 'ln' stands for the natural logarithm, which is a specific type of logarithm that uses 'e' (the natural exponent) as its base. In mathematical notation, 'ln' is used to represent the natural logarithm function.
