@@ -235,3 +235,40 @@ $$t = K^{-1}\sum \text{sgn}(x_i-x_{i:})\text{sgn}(y_i-y_{i:})$$
   - If it is determined they really are separate categorically then it is more appropriate to interpret the correlations of the sub groups individually and ignore the aggregate correlation.
   - If the groups are actually closely related and there is no justification for splitting, then you need to ignore the sub group correlation and use the aggregate correlation.
 - See [notebook](../../statsML/correlation/stats_corr_subgroups.ipynb) for examples of demonstrating this in code.
+
+# Cosine Similarity
+
+- Another way of looking at relationship between data and closely related to the Pearson correlation coefficient.
+- This method is interpreted the same way that the Pearson Correlation is. (just an alternative way to get the same thing)
+- The cosine similarity and correlation can differ (one uses mean centered data the other does not mean center), but neither are wrong if so. they just tell us different things based on different assumptions
+  - With Pearson r, for example we care about whether the data values are generally going up and down together and whether large or small jumps are seen in both vars at the same time.
+  - The relationships between the values are what is important and whether the variables generally go up and down together is what's important.
+  - With Cosine Similarity, on the other hand, you might see a diff if there are scale differences between the variables.
+
+### Formula
+
+$$\text{cos}() = {{\sum^n_{i=1} x_i y_i} \over \sqrt{\sum^n_{i=1} x_i^2} \sqrt{\sum_{i=1}^n y_i^2}}$$
+
+- The cosine of the angle between two variables/lines (vectors in $n$ dimensional space, iow there are n elements in the vectors)
+  - $x_i y_i$ are like lines in space: x is one line in $n$ dimensional space, y is another line in $n$ dim space.
+  - The cosine of an angle varies between -1 and +1.
+    - The cosine of the angle is -1 when the two lines meet at 180 degrees (going in opposite directions)
+    - The cosine of the angle is +1 when the lines are exactly on top of each other, when they're parallel
+    - The cosine of the angle is 0 when the angle between the vectors is 90 degrees (orthogonal)
+- Note the similarity to the Pearson R formula. The difference is here we do not subract the means of x and y.
+  - so the pearson formula is the same if the data is mean centered or the mean is 0
+
+### Code
+
+```python
+# implementing the formula for data x and y
+cs_num = sum(x*y) # numerator: each element in x times each element in y summed up
+cs_den = np.sqrt(sum(x*x)) * np.sqrt(sum(y*y)) # denominator: in algebra the norm of vector x and norm of vector y in technical terms
+corrs[ri,1] = cs_num / cs_den # the ratio is the cosine similarity
+
+# you can use the spatial module instead as well for a built in function:
+from scipy import spatial
+corrs[ri,1] = 1-spatial.distance.cosine(x,y)
+```
+
+- See [notebook](../../statsML/correlation/stats_corr_cosine.ipynb)
