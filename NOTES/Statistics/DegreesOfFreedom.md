@@ -17,7 +17,7 @@
 
 $$df = N-k$$
 
-- where N is the number of data points and k is the number of parameters we have in the analysis
+- where N is the number of data points (or individuals) and k is the number of parameters we have in the analysis
   - this generally applies, though not always. can depend on type of analysis or odoing corrections etc.
 
 ### Use of degrees of freedom
