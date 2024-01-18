@@ -13,7 +13,7 @@
   - Lower variance = lower range of data/numbers
 - Formula for Sample Variance is: $$\sigma^2 = {1\over{n-1}}\sum_{i=1}^n{(x_i - \bar{x})^2}$$
   - Formula is a little similar to the mean - we sum up the data (${\sum_{i=1}^n}$) and divide by some kind of "n"
-  - $n - 1$ is the number of degrees of freedom ([see discussion](https://www.udemy.com/course/statsml_x/learn/lecture/20009398#questions/11167339)). There's always gonig to be 1 value that we don't need to know in advance because it is dependent on the other values and on the mean.
+  - $n - 1$ is the number of degrees of freedom ([see discussion](https://www.udemy.com/course/statsml_x/learn/lecture/20009398#questions/11167339)). There's always going to be 1 value that we don't need to know in advance because it is dependent on the other values and on the mean.
   - uses **"Mean Centering"** ${(x_i - \bar{x})^2}$: Take difference of each individual data point ($x_i$) and the mean ($\bar{x}$) and square that difference.
     - Why mean center? We want to represent dispersion around the Average instead of the magnitude of the values themselves. Goal is to measure distances to the average.
     - Ex: [1,2,3,3,2,1] vs. [101,102,103,103,102,101] - if you did not mean center on the second the outcome would be a huge number for dispersion while it would be small for the first set - even though both sets are dispersed the same spread.

@@ -188,10 +188,12 @@ ${df}_{Total} = N - 1$
 
 $${SS}_{Between} = \sum_{j=1}^{levels}(\bar{x}_{j} - \bar{x})^2n_j$$
 
-- Variability between different levels that we can attribute to the levels (based on the thing we are manipulating in the experiment or the different groups we've organized based on some characteristic)
+- Tells us the variability considering all levels (it does not tell us about the variability in relation to any one or specific level) - it tells total variance across all the levels!
+- Variability/Variance in dataset between different groups that we can attribute to different levels within each factor (based on the thing we are manipulating in the experiment or the different groups we've organized based on some characteristic)
 - We are still dealing with the global mean of the entire dataset with $\bar{x}$, but we are ignoring individuals and looking at the mean within each group or of each level with $\bar{x}_{j}$
 - $n_j$ at the end is the number of individuals within each level.
-- So again note that we ignore individual variability when using Sum of Squares Between
+- So again note that we ignore individual variability when using Sum of Squares Between. We are averaging all the individuals together from one cell in the ANOVA table (all the data points within each cell/within each level get averaged together)
+- $\bar{x}_{j}$ is the group means (within level) and $\bar{x}$ is the mean of the total population when ignoring all of the factors. We care about the difference between these two metrics.
 
 ##### Degrees of Freedom for SS Between
 
@@ -200,17 +202,58 @@ ${df}_{Between} = k - 1$
 - $k$ is the number of levels that we have in our factor
   - The reason is we are dealing with the averages of the levels (so N turns into k)
 
-#### Sum of Squares Within
+#### Sum of Squares Within (a.k.a. SS Error)
 
 $${SS}_{Within} = \sum_{j=1}^{levels}\sum_{i=1}^{individuals}(x_{ij} - \bar{x}_j)^2$$
 
 - Sometimes also called the Sum of Squares Errors (this is just a term, the differences between the data are not literally errors.)
 - The main difference here is that we are subtracting the mean within each specific group $\bar{x}_j$
   - The individuals are going to be subtracting from the mean of a group
+  - Dealing with individual variability within each group.
+- $x_{ij}$ is each individual ($i$) within each cell/level ($j$) and we compute difference against the cell (note same as $\bar{x}_{j}$ in SS Between above)
 
 ##### Degrees of Freedom for SS Within
 
 ${df}_{Within} = N - k$
 
-- $N$ is the total number of subjects since we are considering all the individuals (within the data and within the level) in SS Within
+- $N$ is the total number of subjects/data points since we are considering all the individuals (within the data and within the level) in SS Within
 - We use $k$ because we have $k$ different means in the term $\bar{x}_j$ (the means of the levels where we have k number levels, instead of just 1 parameter with $\bar{x}$ as in SS Total)
+
+### F-Statistic
+
+- The main statistic we are interested in in an ANOVA is the F-statistic (a ratio of Explained Variance (withingroup) to Unexplained Variance (between-group))
+  - i.e. the Variance due to the factors in our data divided by the Natural variation in the data (not attributable to experimental factors)
+  - We want the F-statistic to be large: When the F statistic is large it means there is a lot of variability related to experimental manipulations, when small it indicates there is more variability just because of natural causes in the data than what we can account for with independent variables.
+
+#### Mean of Squares
+
+Divide the Sum of Squares quanitites by their degrees of freedom:
+
+$${MS_{Between}} = {SS_{Between}\over{df_{Between}}} = {{\sum_{j=1}^{levels}(\bar{x}_{j} - \bar{x})^2n_j}\over{k-1}}$$
+
+- $df_{Between}$ is the degrees of freedom for the Sum of Squares Between formula.
+
+$${MS_{Between}} = {SS_{Between}\over{df_{Between}}} = {{\sum_{j=1}^{levels}\sum_{i=1}^{individuals}(x_{ij} - \bar{x}_j)^2}\over{N-k}}$$
+
+#### F-statistic Ratio:
+
+Ratio of Mean of Squares Between to Mean of Squares Within
+$$F_{k-1,N-k} = {MS_{Between}\over MS_{Within}}$$
+
+- Represents a ratio of all the variability we can attribute to experimental factors (the levels within each factor) to the variability we attribute to the individual variability which includes individual differences, natural differences, sampling variability, sampling noise, etc.
+- The F-statistic above is with two degrees of freedom ($k-1$ and $N-k$) - the numerator degrees of freedom and the denominator degrees of freedom
+
+### THE ANOVA TABLE
+
+- This is not to be confused with the other tables we create with cells.
+- A table that shows all the above computed metrics/information in a formatted way in a table.
+  - see [video](https://www.udemy.com/course/statsml_x/learn/lecture/20025144?start=30#content) around 4:50 timestamp
+    | Source of Variance | Sums of Squares | Degrees of Freedom | Mean square | F | P-value |
+    | ------- | --- | --- | ------- | ---- | ---- |
+    | Between Groups | SS(b) | k-1 | MS(b) | MS(b)/MS(w) | p
+    | Within Groups | SS(w) | N-k | MS(w) | | |
+    | Total | SS(t) | N-1 | | | |
+- Note that the p value deals with the statistical significance if the mean of at least one group is significantly different from the mean of at least one other group.
+- **The p-value and F-statistic ratio only tells you that there is a difference somewhere - it does NOT tell you which groups are different or how many differences there are**
+  - You must do subsequent visualizations and follow up T-tests to determine exactly which groups/levels are causing the differences shown in The Anova Table.
+    - i.e. Remember that the SS Between tells us total variance across ALL levels.
