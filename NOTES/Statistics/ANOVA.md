@@ -7,6 +7,7 @@
 - The main statistic we are interested in in an ANOVA is the F-statistic (a ratio of Explained Variance (withingroup) to Unexplained Variance (between-group))
   - i.e. the Variance due to the factors in our data divided by the Natural variation in the data (not attributable to experimental factors)
   - We want the F-statistic to be large: When the F statistic is large it means there is a lot of variability related to experimental manipulations, when small it indicates there is more variability just because of natural causes in the data than what we can account for with independent variables.
+- **NOTE:** An ANOVA Table will only tell you if there is some statistically significant difference in the data somewhere - after calculating a ANOVA table, you need to visualize and investigate the data further to pin down exactly what difference in factors or interactions are of interest.
 
 ### Setting up an ANOVA
 
@@ -96,6 +97,33 @@ Example:
 | Younger | 20  | 23  | 21      |
 | Older   | 18  | 20  | 20      |
 
+### 2-way ANOVA Example:
+
+- Goal: test whether girls differ from boys in STEM and non-STEM subjects
+- Variables:
+  - IV: 2 factors
+    - class (levels: boys, girls, mixed-boys, mixed-girls)
+      - note we want to look at boys/girls exam scores separately in the mixed classes so we have 4 levels
+    - subject (levels: math, history)
+  - DV: exam scores
+- Experiment: Three classes of 20 students each study the same material from the same teacher. Exam given.
+
+#### ANOVA TABLE FOR 2-WAY ANOVA EXAMPLE:
+
+| Source of Variance | Sums of Squares | Degrees of Freedom | Mean square | F             | P-value |
+| ------------------ | --------------- | ------------------ | ----------- | ------------- | ------- |
+| Factor Class       | SS(a)           | 3                  | MS(a)       | MS(a)/MS(w)   | .456    |
+| Factor Subj.       | SS(b)           | 1                  | MS(b)       | MS(b)/MS(w)   | .028    |
+| ClxSub Interact.   | SS(axb)         | (3)(1)             | MS(axb)     | MS(axb)/MS(w) | .018    |
+| Within (error)     | SS(w)           | N-8                | MS(w)       |               |         |
+| Total              | SS(t)           | N-1                |             |               |         |
+
+- _According to the above table, AxB interaction and Factor Subj have a low p-value, so there is a signficant interaction between Class and Subject. This makes the main effect of Subject factor difficult to interpret without visualization and post-hoc tests._
+  - Note that there's no main effect of Class factor (p-value is high > .05)
+  - After visualizing results we can see that the Subject factor main effect can be accepted (the average of history vs. math scores are significantly different)
+  - Looking at the interaction visualization we see that there is a difference between Mixed girls class and Boys class levels in Math exam scores.
+- See visualization and post table analysis in [video](https://www.udemy.com/course/statsml_x/learn/lecture/20025158#content) at timestamp 6:35 - explains looking at main effect of Subject
+
 ### Dummy-coding variables
 
 - Converting categorical variables into numbers.
@@ -111,6 +139,7 @@ Example:
 - MANOVA: Multivariate ANOVA - Multiple Dependent Variables (as many Independent Variables as appropriate)
   - Ex: The effects of medication type and age on Covid-19 symptoms and total medical expenses.
     - The 2 dedendent variables are disease symptoms/severity and medical expenses.
+- MIXED: As long as at least one factor is within- (same individuals) and at least one factor is between-subjects (different groups/individuals), then it's a mixed ANOVA. The reason why those need to be differentiated is because it affects how variance is modeled.
 
 ### Fixed vs. Random Effects
 
@@ -351,8 +380,28 @@ $$q = {\bar{x}_b - \bar{x}_s \over {\sqrt{{MS}_{\text{Within}}} \sqrt{2/n}}}$$
 - Note that when you have a significant interaction, it could mean that the main effects are significant but difficult to interpret - caution is needed when interpreting main effects given a significant interaction and you also have to decide if there is an interaction whether to interpret the main effects.
 
 ## Code: One-way ANOVA (including multiple comparisons with Tukey test)
+
 - Use the function from `pingouin` package to compute a one way anova
 - [See notebook](../../statsML/anovas/stats_anova_1wayANOVA.ipynb)
 
 ## Code: Repeated Measures ANOVA
+
 - [See notebook](../../statsML/anovas/stats_anova_1way_rm_ANOVA.ipynb)
+
+## Code: Multi-way factor ANOVA
+
+- [See notebook](../../statsML/anovas/stats_anova_2way_mixed_ANOVA.ipynb)
+- Experiment: The effects of coffee on cognitive task performance.
+  - Same individuals do a task 3 times (within subject/same individual, repeated measure factor)
+    - Before they drink coffee
+    - While they're drinking coffee
+    - After they have drunk coffee
+  - How much coffee drunk normally (Between subjects factor, 3 groups of people/different individuals)
+    - Mild coffee drinkers
+    - Moderate Coffee drinkers
+    - Heavy Coffee drinkers
+- # use the function from pengouin package for mixed anovas:
+
+```python
+pg.mixed_anova(data=df,dv='TheData',between='Group',within='TimePoint',subject='Subject')
+```
