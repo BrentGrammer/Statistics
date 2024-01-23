@@ -224,6 +224,8 @@ ${df}_{Within} = N - k$
 - The main statistic we are interested in in an ANOVA is the F-statistic (a ratio of Explained Variance (withingroup) to Unexplained Variance (between-group))
   - i.e. the Variance due to the factors in our data divided by the Natural variation in the data (not attributable to experimental factors)
   - We want the F-statistic to be large: When the F statistic is large it means there is a lot of variability related to experimental manipulations, when small it indicates there is more variability just because of natural causes in the data than what we can account for with independent variables.
+- See example of interpreting an F-statistic in [video](https://www.udemy.com/course/statsml_x/learn/lecture/20025152#content) at timestamp 9:27
+  - A small p-value means the there is a low probability of getting that F-statistic on the F-distribution, so it means that there is an effect that one or more of the levels has.
 
 #### Mean of Squares
 
@@ -254,6 +256,103 @@ $$F_{k-1,N-k} = {MS_{Between}\over MS_{Within}}$$
     | Within Groups | SS(w) | N-k | MS(w) | | |
     | Total | SS(t) | N-1 | | | |
 - Note that the p value deals with the statistical significance if the mean of at least one group is significantly different from the mean of at least one other group.
-- **The p-value and F-statistic ratio only tells you that there is a difference somewhere - it does NOT tell you which groups are different or how many differences there are**
+- Note that it's possible to derive the total number of data points and the number of levels in a factor from the above table - use the degrees of freedom col - N-1 (N is total data points), N-k (k is number of levels)
+
+#### Correct Interpretation of the p-value in The ANOVA Table:
+
+- **The p-value and F-statistic ratio only tells you that there is a difference between the groups somewhere - it does NOT tell you which groups are different or how many differences there are**
+  - It says that the mean of at least one level/group is statistically significantly different from the mean of at least one other group/level.
   - You must do subsequent visualizations and follow up T-tests to determine exactly which groups/levels are causing the differences shown in The Anova Table.
     - i.e. Remember that the SS Between tells us total variance across ALL levels.
+  - Example: A p-value of .0002 (because it is less than o.5 or 5%) means that the mean of at least one level/group is statistically significantly different from the mean of one of the other groups.
+
+#### "Omnibus" F-Test
+
+- Refers to the F statistic and in an indicator that there is something in the conclusion that means we should reject the null hypothesis (the means of levels are not all equal and somwhere is a statistically significant difference)
+- After seeing that there is some difference, next step is to make visualizations of the data to investigate where the difference is:
+  - You could make a bar plot with levels of factor on the x-axis and the dependent variable on the y-axis
+  - This is a start, but not conclusive, but note that you cannot just run t-tests pairwise on all the levels (this leads to an unacceptably high family error rate leading to type I errors).
+    - see [video](https://www.udemy.com/course/statsml_x/learn/lecture/20025146?start=15#content) at timestamp 6:05
+  - The way to correct for t-test comparisons is to run the Tukey test
+
+### The Tukey Test
+
+- Allows for post-hoc comparisons after a F test reveals there is some difference in an ANOVA in the levels while controlling the familywise error rate
+  - Comes into play when wanting to test individual conditions after we have tested that the ANOVA is signficant.
+- NOTE: You should only use post-hoc comparisons/tukey test when the omnibus F-test is significant! (otherwise the ANOVA is telling us there is nothing significantly different between levels/groups and there is no reason to compare.)
+
+  - i.e. if the F term shown in The ANOVA Table has a p-value that was greater than .05 or 5%, then there is no significant difference in the levels. iow, there is no evidence of the effect of the factor
+
+#### Formula
+
+$$q = {\bar{x}_b - \bar{x}_s \over {\sqrt{{MS}_{\text{Within}}} \sqrt{2/n}}}$$
+
+- $q$ is a statistic value
+- The numerator is the differnce of the means of the two conditions you are comparing (condition $b$ and condition $s$), i.e. the two means of two different groups you're comparing.
+- The denominator involves multiplying a variance term by a factor of $n$ (the total number of data points)
+- **The tukey test is conceptually similar to a t-test**(we're looking at the difference of means and scaling that by some variance term considering the total number of data points)
+  - The way we evaluate the signficance depends on the number of comparisons of the levels we want to make.
+
+##### Q-Distribution
+
+- $q$ has it's own distribution, the Q-Distribution.
+  - Evaluated with j,n-j degrees of freedom where j is the total number of comparisons you plan on doing (not the total possible number, for ex. if comparing 4 levels, j = 6 to get all the pairwise comparison permutations). n is the total number of values.
+
+## Two-way ANOVA (A 2 Factor/Factorial ANOVA)
+
+- Dealing with 2 factors
+  - Example: Factors are Medication and age, Levels are A,B, placebo (medication) and younger/older (age)
+- The total variation in the dataset is the sum of the variation across individuals within each group and the variation across the different levels **within each factor AND the variation at the interaction between the factors**
+  - The effect of one fator depends on the levels of the other factor.
+    - Example: If the way the medication works differs depending on whether patient is young or old, that means there is an interaction (if the way it worked was the same whether young or old there is no interaction present)
+- See formulas updated for a 2-way ANOVA in [video](https://www.udemy.com/course/statsml_x/learn/lecture/20025150#content) at timestamp 2:36
+
+  - Formulas are for:
+
+    - Sum of Squares Total
+    - Sum of Squares Between group A (Pool across cells in columns for one factor and across the rows for the other factor, i.e. Medication or Age)
+    - Sum of Squares Between group B
+    - Sum of Squares for group A x B (variability attributed to factors interacting with each other)
+    - Sum of Squares Within (variances within each cell pooled together)
+
+    MEDICATION
+
+| AGE     | A   | B   | placebo |
+| ------- | --- | --- | ------- |
+| Younger | 20  | 20  | 20      |
+| Older   | 20  | 20  | 20      |
+
+### The ANOVA Table for a Factorial ANOVA:
+
+| Source of Variance | Sums of Squares | Degrees of Freedom | Mean square | F             | P-value |
+| ------------------ | --------------- | ------------------ | ----------- | ------------- | ------- |
+| Factor A           | SS(a)           | a-1                | MS(a)       | MS(a)/MS(w)   | p       |
+| Factor B           | SS(b)           | b-1                | MS(b)       | MS(b)/MS(w)   | p       |
+| AxB Interact.      | SS(axb)         | (a-1)(b-1)         | MS(axb)     | MS(axb)/MS(w) | p       |
+| Within (error)     | SS(w)           | N-ab               | MS(w)       |               |         |
+| Total              | SS(t)           | N-1                |             |               |         |
+
+#### Interpreting the p-values
+
+- As shown, we have multiple p-values, but each p-value tells us only about that specific Factor
+
+### Interpreting Main effects and interactions
+
+- Example: The effects of vitamin supplements (vs. placebo) and age(30-40,50-60) on cardiovascular health. (does the supplement improve health and does that depend on the age of participants?)
+  - Factor A: Supplement, levels: real vs. placebo
+  - Factor B: Age group, levels: 30-40 vs. 50-60
+
+### Main Effects
+
+- see [video](https://www.udemy.com/course/statsml_x/learn/lecture/20025150#questions) at timestamp 13:11
+- Main Effects refer to the effect in a particular factor ignoring the other factor
+  - Example: The main effect of Age in the above example means you take the average between the two levels young and old, ignoring the medication type level (placebo vs. supplement) on cardiovascular health.
+    - The main effect of Medication factor means you take the average of the Placebo total vs. Supplement totals ignoring the age factor on health.
+- Note that when you have a significant interaction, it could mean that the main effects are significant but difficult to interpret - caution is needed when interpreting main effects given a significant interaction and you also have to decide if there is an interaction whether to interpret the main effects.
+
+## Code: One-way ANOVA (including multiple comparisons with Tukey test)
+- Use the function from `pingouin` package to compute a one way anova
+- [See notebook](../../statsML/anovas/stats_anova_1wayANOVA.ipynb)
+
+## Code: Repeated Measures ANOVA
+- [See notebook](../../statsML/anovas/stats_anova_1way_rm_ANOVA.ipynb)
