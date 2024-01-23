@@ -20,5 +20,6 @@
   - [Hypothesis Testing](./NOTES/Statistics/HypothesisTesting.md)
     - [T-Tests](./NOTES/Statistics/T-Tests.md)
   - [Correlation](./NOTES/Statistics/Correlation.md)
+  - [ANOVAs](./NOTES/Statistics/ANOVA.md)
 - [Data Visualizations](./NOTES/DataVisualizations/)
 - [Deep Learning](./NOTES/DeepLearning/)
