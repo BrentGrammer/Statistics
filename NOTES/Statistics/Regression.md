@@ -234,7 +234,7 @@ x # matrix multiplication
 
 ## Code: Simple Regression
 
-- use scipy  stats.linregress function for simplest approach:
+- use scipy stats.linregress function for simplest approach:
 
 ```python
 # input the independent varaible (number hours slept) and dependent variable (dollars spent)
@@ -243,3 +243,52 @@ slope,intercept,r,p,std_err = stats.linregress(sleepHours,dollars)
 ```
 
 - [See notebook](../../statsML/regressions/stats_regression_simpleRegression.ipynb)
+
+## Multiple Regression
+
+- A regression with multiple parameters - multiple independent variables
+- Example:
+  $$y = \beta_0 + \beta_1 s + \beta_2 h + \beta_3(s * h) + \epsilon$$
+- Do students' grade on a stats examp depend on sleep (s), hours studied (h) and the interaction between them (multiply sleep by hours studied) s x h? N=30 students
+  - To implement an interaction term in regression you just multiply the two IVs together.
+  - Note that you can square IVs if you want them to have more importance, but you cannot square Beta coefficients, Ex: $\beta_2 h^2$ - the square only applies to hours (h), not the beta coeff
+
+### The Regression Table
+
+- Similar to ANOVAs you can make a table for Regressions:
+- note the ddof is N-k where k is the total number of parameters (not the same thing as independent variables - the parameters include the intercept/constant)
+  - The intercept is sometimes called the Constant
+
+| Source of Variance  | Beta Coef | Std. Error    | t-value | p-value |
+| ------------------- | --------- | ------------- | ------- | ------- |
+| Constant(Intercept) | 60        | .3 (N-k ddof) | 200     | .000    |
+| Study Hrs           | 4.5       | 1.2           | 3.75    | .001    |
+| Sleep Hrs           | .8        | .33           | .33     | .373    |
+| Study x Sleep       | 5.4       | .8            | 6.75    | .000    |
+
+- Shows that there is a Main Effect of Study Hours (small pval), no main effect of hours slept, but a significant effect of the interaction.
+- Note that the above shows that Sleep Hours is not significant (p-value > 0.5), but it is still somehow important because it interacts with Study Hours.
+  - This is similar to how in an ANOVA you can have a non significant main effect, but an interaction with it that does have an effect.
+
+### Visualizing the data in Multiple Regression
+
+- We need multiple axes with more than 2 parameters (like a simple regression)
+- To avoid plotting multi-dimensional graphs, we can instead discretize one of the variables (the regressors) and bin it into a number of ordinal categories (use a small number, 2 or 3)
+  - Example: treat the continuous variable of study hours as ordinal and bin it into 3 parts: small amount of study(2-4 hours), medium amount of study(5-6 hours), large amout of study (7-8 hours).
+  - see [video](https://www.udemy.com/course/statsml_x/learn/lecture/20225704#content) at timestamp 8:10 for visual example.
+  - In the above example with no main effect, after we average the three bins together and get a flat line with a slope of 0
+
+### Interaction Terms in Multiple Regressions
+
+- The more parameters you have, the more higher-order interaction terms you can have
+  - i.e. with 3 IVs, getting all the possible interactions would be 4 permutations resulting in 8 parameters total
+  - Avoid introducing multicolinearity
+  - Avoid having too many higher-order interaction terms and aim to have as few as possible unless necessary.
+  - If at least one variable is binary this does help when you have multipole interaction terms.
+
+### Interpreting a Beta Coefficient
+
+- The beta coefficient ($\beta$) measures the effect of a change of one unit of the independent variable it is associated with ($x$): $\beta x$
+  - IOW, the effect of a change in parameter x on the y-axis
+- In a Multiple Regression: the beta coefficient represents the above **when all other variables are held constant**.
+  - When we change parameter $x$ we fix all the other parameters in the model (the other parameters do not vary and we shift the model by one unit in $x$ for example)
