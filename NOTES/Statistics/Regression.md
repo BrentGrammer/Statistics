@@ -51,7 +51,7 @@
   ]
 
   [
-    Beta0 # vector of beta coefficients (unknowns we want to solve for in model fitting)
+    Beta0 # vector of beta coefficients (unknowns we want to solve for in model fitting) - each of these line up with a particular IV parameter
     Beta1
     Beta2
     Beta3
@@ -119,9 +119,13 @@ $$\beta = (X^TX)^{-1}X^T y$$
       [
         182 182 5
         179 179 3
-        162 162 1 # note the first two cols are always the same numbers.
+        162 162 1 # note the first two cols are always the same numbers and therefore highly correlated.
       ]
       ```
+
+#### Be suspicious of high correlations between Independent Variables in the design matrix:
+
+- Very strong correlations in the design matrix indicate that there are redundancies in the model. That will decrease the fit of the model to the data (because the design matrix is less numerically stable). Strong correlations don't necessarily mean that the model is flawed, but it is an indicator that something might have gone wrong with the model specification, and you should look into it.
 
 ## Regression Models: R-squared and F
 
@@ -288,7 +292,113 @@ slope,intercept,r,p,std_err = stats.linregress(sleepHours,dollars)
 
 ### Interpreting a Beta Coefficient
 
-- The beta coefficient ($\beta$) measures the effect of a change of one unit of the independent variable it is associated with ($x$): $\beta x$
+- The beta coefficient ($\beta$) measures the effect of a change of one unit of the independent variable it is associated with ($x$) in $\beta x$, on the dependent variable $y$.
   - IOW, the effect of a change in parameter x on the y-axis
+  - Example: If $\beta_1 s$ where $\beta_1$ is .167 that means that for every change of 1 unit in sleep (for example 1 unit is 1 hour), the y-axis or dv is changed by .167
 - In a Multiple Regression: the beta coefficient represents the above **when all other variables are held constant**.
   - When we change parameter $x$ we fix all the other parameters in the model (the other parameters do not vary and we shift the model by one unit in $x$ for example)
+
+## Standardizing Regression Coefficients
+
+- Unstandardized Beta Regressions: The raw output (the beta coefficients you get) of the regression model are unstandardized.
+- Beta coefficients are scale dependent
+  - Example: $\beta_1 s$ measuring the parameter of amount of sleep in test score performance could be measured in terms of hours (1 unit of change is 1 hour) or minutes etc.
+  - If $\beta_1$ is .167 that means that for every change of 1 unit in sleep (for example 1 unit is 1 hour), the y-axis or dv is changed by .167
+    - If the unit of $s$ was minutes however, then $\beta_1$ would become 10 (because to keep the same effect calculated with hours each minute needs to have an effect of 10x, i.e. 60 \* .167 = 10), if in seconds, then $\beta_1$ becomes 600.
+- It's difficult to interpret beta coefficients when they are unstandardized across variables
+  - If you have one beta coeff that is in hours or seconds and another that is in calories, you're trying to compare apples to oranges. There's no good way to look at the raw coeffs and see quickly if one is stronger in effect relative to the other.
+
+### Standardization of Beta Coefficients
+
+- Standardization means that we have the same beta coefficients regardless of the original units of the data. i.e. the units of the parameters do not matter.
+- Standardizing coefficients is specifically useful when wanting to compare the effects relative across multiple indepentent variables or parameters or models. Otherwise using unstandardized coefficients helps interpret the effect of a single parameter.
+- Standardized Coefficients are in standard deviation units which are unrelated to the scale of the original data.
+- You can use unstandardized or standardized beta coefficients depending on what you want to interpret (single params vs. comparing across params/models), and using either has no effect on the underlying statistics - does not change p-vals, t-values, r squared etc.
+
+#### How to standardize Betas:
+
+- Noramilze the Beta Coefficients so that they have a variance equal to 1. (similar to Z-score normalization)
+- Two methods:
+  - z-normalize the entire dataset (the dependent and independent variables) BEFORE you run the regression.
+    - standardized and unstandardized betas will both be in the same scale with this method
+  - Recompute Beta values standardized by the standard deviations of both the independent variable and the dependent variable, but leave the original data alone.
+    $$b_k = \beta_k{s_{x_k} \over s_y}$$
+    - Where $\beta_k$ is the unstandardized raw beta coefficient multiplied by the standard deviation $s$ of the independent variable for the corresponding parameter ($x_k$ is data point $x$ and $k$ is the independent variable) divided by the standard deviation $s$ if the data $y$.
+    - We normalize by the standard deviation of the Dependent variable and the relevant independent variable.
+    - stats software handle this formula for you and include both standardized and unstandardized regression coefficients in a table for you.
+
+### Interpreting a standardized Beta Coefficient:
+
+- A standardized beta coefficient reflects the effect of one standatd deviation change in $h$ (DV) on how much standard deviation changes occur in $y$ (the IV) **when all other variables are held constant** (as in all multiple regressions)
+  - No longer are we reflecting a change in one unit as in unstandardized betas
+  - The "units" of change now depend on the data distribution or variance
+  - Example if $\beta_2$ for food intake is .8, that means that for every standard deviation of increase in food eaten, that would give you .8 standard deviations higher score on the dependent var $y$.
+
+## Code: Multiple Regressions
+
+- Can use the LinearRegression fn from scikit learn
+
+```python
+from sklearn.linear_model import LinearRegression
+
+```
+
+- see [Notebook](../../statsML/regressions/stats_regression_multipleRegression.ipynb)
+
+## Polynomial Regressions
+
+- A polynomial has the form of the data $x$ to increasing exponents
+  $$a_0 + a_1x + a_2x^2 + ... + a_nx^n$$
+  - starts at $a_0$ which is like multiplying x to the zeroth power. Then exponents on x continually increase.
+  - x has coefficients to give each term some weight.
+  - Examples: $3 - 5x + 1.5x^2 + 12.4x^3$ or $2x + x^3$ (you leave out the x terms multiplied by 0)
+
+### Order of a polynomial
+
+- The order of a polynomial expression is the largest exponent - i.e. the n-th order polynomial
+  - $3 - 5x + 1.5x^2 + 12.4x^3$ is a 3rd order polynomial since the largest exponent is 3
+
+### Formula for a Polynomial Regression
+
+$$y = \beta_0 + \beta_1x + \epsilon$$
+
+- This is a first order polynomial regression ( largest exp of x is 1)
+- $y = \beta_0 + \beta_1x^1 + \beta_2x^2 + \epsilon$ is a second order polynomial regression
+
+### Fitting nonlinearity in Polynomial regressions
+
+- Since x is exponentially increasing there is nonlinearity involved, but the Beta coefficients are all linear (regular multiplication).
+- Polynomial regression is actually a linear model due to the above (doing nothing nonlinear with the coefficients, just the data is being raised to higher powers)
+
+### When to use a Polynomial Regression
+
+- When a straight line is not a good fit to a dataset and there are curves to the fitting needed.
+- See [video](https://www.udemy.com/course/statsml_x/learn/lecture/20225716#content) at timestamp 4:38 for visual
+
+### Determining Appropriate Order - Bayes Information Criteria (BIC)
+
+$$BIC_k = n{\ln}(SS_\epsilon) + k{\ln}(n)$$
+
+- Used to determine how many orders to use for polynomial regression for best fit.
+- Can compute this for every model order (up to $k$ model orders)
+- $n$ is the number of data points you have, multiplied by natural log of the Sum of Squares of the Residuals ($\epsilon$) plus $k$ number of parameters times natural log of datapoints $n$
+- Run through a bunch of model orders and fit them all. Then look at a plot of the BICs (plot the BIC (on y-axis) as a function of the polynomial order (on x-axis))
+  - Look for the minimum point (smallest BIC on y-axis) in that plot and that is the optimal model order to use. (look at the x-axis for the order to use)
+- We try to find the smallest BIC to get a good fit to the data without overfitting (as orders/params increase, so does the R-squared which can be misleading)
+
+### Code: Polynimial Regressions
+
+- See [notebook](../../statsML/regressions/stats_regression_polynomialRegression.ipynb)
+- Use numpy functions `polyfit` and `polyval`
+
+```python
+# polyfit: first arg is IV, then dependent variable(y dataset), then specify the order of polynomial
+  # we know the order is 2 since we made the data, but you can use the BIC to calculate it (see further below cells)
+pterms = np.polyfit(x,y1,2)
+print(pterms) # we get 3 nums: x^2 term, x^1 term, x^0 (intercept term) - NOTE THE ORDER!!!
+
+# We now use the polyfit terms in the polyval function to evaluate the polynomial
+   # input the coefficients and the independent variable
+# this gives us the predicted data
+yHat1 = np.polyval(pterms,x) # evaluate a polynomial
+```
