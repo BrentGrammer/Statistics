@@ -308,6 +308,10 @@ slope,intercept,r,p,std_err = stats.linregress(sleepHours,dollars)
 - It's difficult to interpret beta coefficients when they are unstandardized across variables
   - If you have one beta coeff that is in hours or seconds and another that is in calories, you're trying to compare apples to oranges. There's no good way to look at the raw coeffs and see quickly if one is stronger in effect relative to the other.
 
+#### CAUTION: The first thing you need to think about when looking at unstandardized Beta Coefficients (the default in a Regression table for ex.) is to be careful about comparing them
+
+- If they are in the same scale then it is fine, but since they are unstandardized in tables by default, the first thing you should do is confirm this, and standardize them if needed if you want to do a direct comparison between beta coefficients.
+
 ### Standardization of Beta Coefficients
 
 - Standardization means that we have the same beta coefficients regardless of the original units of the data. i.e. the units of the parameters do not matter.
@@ -401,4 +405,72 @@ print(pterms) # we get 3 nums: x^2 term, x^1 term, x^0 (intercept term) - NOTE T
    # input the coefficients and the independent variable
 # this gives us the predicted data
 yHat1 = np.polyval(pterms,x) # evaluate a polynomial
+```
+
+## Logistic Regression
+
+- a.k.a. Binary Logistic Regression
+- Has a dependent variable that is logical (i.e. a boolean) and binary (2 possible outcomes)
+  - True/False
+  - Male/Female
+  - Has tumor/ Does not have tumor
+  - Win/Lose
+- **Does NOT classify**: The output is not True/False or Pass/Fail etc. It returns probabilities of category membership (i.e. of different events occuring, i.e. a probability of passing or failing)
+- After running a logistic regression to get the probabilities we then need to do some classification by implementing a threshold (i.e. if regression says probability is greater than 50%, r>0.5, then we consider that to be a pass or true result etc.).
+
+### Multinomial Logistic Regression
+
+- Extended to any number of categorical outcomes (i.e. more than 2 like the logistic regression)
+  - cat / penguin / truck
+- What Deep Neural Networks implement for things like image recognition/categprization
+
+### Formula
+
+$$\ln{p \over 1-p} = \beta_0 + \beta_1x_1 + ... + \beta_kx_k$$
+
+- The right side is a normal regression
+- The left side is the different part: The natural log of the ratio of the probability of the event happening to the probability of the event not happening.
+
+### Solve for p to get the probability
+
+- We really want to solve for $p$ to get the probability.
+
+  - use the natural exponent on both sides (natural exp cancels out ln natural logarithm)
+  - Fuller explanation in [video](https://www.udemy.com/course/statsml_x/learn/lecture/20225732#content) at timestamp 6:25
+    $$p = {1 \over {1 + e^{-{\hat{y}}}}}$$
+  - Where $\hat{y}$ y-hat is the right side of the regression formula above and $e$ is the natural exponent
+
+- We use the log because it has a larger dynamic range when dealing with small values (i.e. $1 \over 1-p$).
+  - See [video](https://www.udemy.com/course/statsml_x/learn/lecture/20225732#content) at timestamp 7:23
+  - Makes it easier to work with these small values in optimization problems. Increasing the dynamic range helps the model find the right parameters to get the best fit for the data.
+
+### Finding the best regression coefficients
+
+- Because there are nonlinearities in the formula (division, betas in the exponent, stuff other than just multiplication and addition etc.), it's not possible to use the left-inverse and linear algebra as we would in other General Linear Models.
+- Instead we need to use iterative methods such as **Gradient Descent** to find the set of parameters (Beta Coefficients) that make the probabilities output (predictions) best match the Dependent Variable (actuals)
+  - Start off with random Beta Coefficients, and see how well does the equation produce probabilities that match the outcomes. Keep repeating different parameters to find a good fit.
+
+### Example of a Logistic Regression
+
+- Research Question: Does the amount of sleep and number of study hours predict PASSING an exam?
+  - The main difference here that makes this appropriate for a logistic regression is that we change the Dependent Variable from being the exact score that people get, we just want to predict a binary outcome of pass or fail.
+- Experiment: Ask 20 students (N=20) to report the number of hours slept and number of hours studied. Then look at their grades and label it as a pass or fail outcome.
+
+### Visualizing a Logistic Regression
+
+- Since the model is outputing probabilities, we can set up a plot in the following way:
+  - see [video](https://www.udemy.com/course/statsml_x/learn/lecture/20225732#content) at timestamp 15:00
+  - The individuals are on the X-axis (i.e. N=20, so 20 ticks)
+  - Group the individuals into the categorization of the test - i.e. 10 students who passed are in one group and the 10 students who failed are in another group (the first 10 ticks are pass, second 10 ticks on x-axis are failed)
+  - On the y-axis plot the output of the logistic regression model (the probability values for each individual whether they passed the exam)
+  - You need to establish a threshold (i.e. 0.5 probability above is passing, below which is failing)
+  - Determine concordances (correctly predicted outcomes) and errors (incorrect predictions) and determine an accuracy, i.e. 0.75 or 75%.
+  - This framework is called **PREDICTIVE MODELING**
+    - Use a logistic regression and make a threshold and count the accuracy rate
+
+## Code: Logistic Regression
+- see [notebook](../../statsML/regressions/stats_regression_logisticRegression.ipynb)
+- use the function that comes from scikitlearn:
+```python
+from sklearn.linear_model import LogisticRegression
 ```

@@ -130,7 +130,7 @@ y<sub>2</sub> = e<sup>log(x)</sup>
 
 ``
 
-### The logistic equation and Sigmoid
+## The logistic equation and Sigmoid
 
 #### Ths Sigmoid function:
 
@@ -152,8 +152,8 @@ $ln{p \over {1-p}} = \beta$
 
 - An important function in odds ratios, important for a softmax function in machine learning
 - [See this video](https://www.udemy.com/course/statsml_x/learn/lecture/20009230#questions) for solving for `p`
-  - use the natural exponent to cancel out the natural log and isolate:
-    ${p \over {1-p}} = e^\beta$
+  - use the natural exponent to cancel out the natural log and isolate (use natural exp on both sides):
+    $e^{ln{p \over {1-p}}} = e^\beta$
   - Then multiply by 1-p on each side to get: $p = e^\beta(1-p)$
   - expand this out by multiplying $e^\beta$ by 1 and p: $p = e^\beta - e^\beta p$
   - move $e^\beta$ over to the left side in order to get the p's on one side: $e^\beta = p + e^\beta p$
