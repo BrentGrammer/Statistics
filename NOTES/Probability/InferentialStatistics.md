@@ -196,9 +196,10 @@ plt.show()
 # note that you could argue that we're showing proportion vs. probability here, but if we pick a random point of the data at any point on the time axis, then it can be interpreted as probability. Sometimes proportion and probability can overlap. and depend on how you interpret the data or what question you're asking about the data.
 ```
 
-### Cumulative Distribution Functions
+### Cumulative Distribution Functions (a.k.a. Cumulative Density Functions)
 
 - see [video](https://www.udemy.com/course/statsml_x/learn/lecture/20014640#content)
+- also [video](https://www.udemy.com/course/statsml_x/learn/lecture/20249434#content) at timestamp 11:22 for concise visual and explanation.
 - sometimes abbreviated 'cdfs'
 - A CDF is the cumulative sum (or integral) of the probability distribution (or density)
   - The y-axis value at each x-value is the sum of all the probabilities to the left of that x-value.

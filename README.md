@@ -26,6 +26,7 @@
     - [T-Tests](./NOTES/Statistics/T-Tests.md)
   - [Correlation](./NOTES/Statistics/Correlation.md)
   - [ANOVAs](./NOTES/Statistics/ANOVA.md)
+  - [Statistical Power](./NOTES/Statistics/StatisticalPower.md)
 - [Data Visualizations](./NOTES/DataVisualizations/)
 - [Deep Learning](./NOTES/DeepLearning/)
 - [Over and Under fitting](./NOTES/Statistics/OverFitting.md)
