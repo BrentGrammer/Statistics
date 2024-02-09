@@ -31,7 +31,33 @@
 
 - see [notebook](../../statsML/clustdimred/stats_clusterdimred_kmeans.ipynb)
 - Use the KMeans function from scikit learn
+
 ```python
 from sklearn.cluster import KMeans
 
 ```
+
+## Determining cluster number
+
+### Qualitative testing
+
+## determining the appropriate number of clusters (qualitative)
+
+- we run kmeans with a different number of clusters and look at the results to see if we can infer anything
+- The idea in Qualitative testing is to re-run the kmeans over and over and look at the plot results to see if they change a lot
+  - If the cluster assignments are changing alot each time you run the code with the same data, that means you are probably using too many clusters
+
+### Quantitative Testing
+
+#### Silhouette Testing
+
+- Silhouette coefficient of a cluster refers to a metric about the quality of the clustering, i.e. how well that clustering worked out
+  - we want to look for number of clusters that maximizes the silhouette coefficient
+
+#### Elbow Test
+
+- We also look for the Sum of Squared distances (how far apart data points are from the means)
+  - the more clusters you have, the smaller the squared distances are going to be
+  - we want to find the "elbow" - look at plot and determine visually which data point has the biggest bend (like an elbow point)
+  - that point is the optimal number of clusters
+  - see [video](https://www.udemy.com/course/statsml_x/learn/lecture/20246034#questions) at 20:40
