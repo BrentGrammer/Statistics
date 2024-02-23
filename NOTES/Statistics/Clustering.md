@@ -132,3 +132,38 @@ from sklearn.cluster import DBSCAN
 # min_samples is the minimum num of data points needed to be considered a cluster
 clustmodel = DBSCAN(eps=.6,min_samples=6).fit(data)
 ```
+
+# K-Nearest Neighbor (KNN)
+
+## The Basic Algo
+
+- From any data point `i` find the `k` nearest neighboring data points (i.e. 3 nearest neighbors, etc.)
+- Assign data point `i` to the group/cluster that the majority of those neighboring data points belongs to.
+- see [video](https://www.udemy.com/course/statsml_x/learn/lecture/20246048#content) at timestamp 1:55 for illustration.
+- Note that you can consider all the distances and then choosing the closest group of data to determine K
+  - see [video](https://www.udemy.com/course/statsml_x/learn/lecture/20246048#content) at timestamp 6:20 for illustration and explanation.
+
+### Difference from KMeans Clustering:
+
+- The data has to be categorized and assigned labels ahead of time when using K Nearest Neighbor.
+  - With K-means clustering, the dataset is not labeled or categorized before applying the procedure.
+- Both do however rely on the assumption that Euclidian distance between points is the way to determine group membership
+
+## Code: K-Nearest Neighbor
+
+- See [notebook](../../statsML/clustdimred/stats_clusterdimred_KNN.ipynb)
+- Use the KNeighborsClassifer from scikit learn
+
+```python
+from sklearn.neighbors import KNeighborsClassifier
+
+## In practice you just use this function:
+# use euclidian distance, k = 3 for example
+knn = KNeighborsClassifier(n_neighbors=k, metric='euclidean')
+knn.fit(data,grouplabels) # grouplabels = np.concatenate((np.zeros(nPerClust),np.ones(nPerClust)))
+
+# use the predict method to input the newpoint to predict which group they belong to
+whichgroupP = knn.predict(newpoint.reshape(1,-1)) # need to reshape to fit the argument expectation for .predict()
+
+print('New data belong to group ' + str(whichgroupP[0]))
+```
