@@ -106,6 +106,9 @@ cents = kmeans.cluster_centers_ # x and y coords for the computed centers
 
 ### K-means vs. Dbscan:
 
+- **a major difference between dbscan and k-means is that dbscan will simply exclude points that don't fit into a cluster (assign them as noise), whereas k-means will assign every single data point to a cluster.**
+  - see comparison in [notebook](../../statsML/clustdimred/stats_clusterdimred_dbscan.ipynb)
+  - Implication is when you think you are dealing with a lot of outliers, Dbscan is a better method for clustering.
 - Both look at distances to determine cluster assignment
   - Kmeans is based on distance to centroids
   - Dbscan based on distance to neighbors
@@ -115,8 +118,6 @@ cents = kmeans.cluster_centers_ # x and y coords for the computed centers
 - Both are sensitive to scaling effects (esp dbscan)
   - ex. if you have one cluster with data closer together and another with data further apart, dbscan will probably not give you a good solution.
 - K-means: can assign every point to a cluster vs. Dbscan: some points are noise and unlabeled/unassigned to a cluster
-- **a major difference between dbscan and k-means is that dbscan will simply exclude points that don't fit into a cluster (assign them as noise), whereas k-means will assign every single data point to a cluster.**
-  - see comparison in [notebook](../../statsML/clustdimred/stats_clusterdimred_dbscan.ipynb)
 
 ## Code: Dbscan
 
