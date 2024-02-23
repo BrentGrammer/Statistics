@@ -167,3 +167,57 @@ whichgroupP = knn.predict(newpoint.reshape(1,-1)) # need to reshape to fit the a
 
 print('New data belong to group ' + str(whichgroupP[0]))
 ```
+
+# Principal Components Analysis (PCA)
+
+- Identifying the most important axes that better capture the features and correlation of the data (i.e. axes other than the x or y axis on a graph for ex.)
+  - See illustration in [video](https://www.udemy.com/course/statsml_x/learn/lecture/20246056#content) at timestamp 1:28
+  - You "rotate" the data to conform to the new axes (Principle Components)
+- Useful for dimension compression (reducing data down from high dimensions to make it simpler to analyze)
+- Note: may be suboptimal or misleading when interpreting Principle Components as "factors" or unique sources of variance in the data.
+
+### PC Space
+
+- The data shown on the principle and PCA axes
+  - Instead of X and Y coords, we have PC 1 ("Principle Component 1") and PC 2 coords for example.
+- The data is rotated to conform to the PCA axes.
+  - The most of the concentration of the data is along PC 1, the next most amount of varianced data is aligned with PC 2 etc.
+
+### Data Compression
+
+- Take each data point and project it only onto certain axes or dimensions that you care about.
+- Once you have the PCA done, you can flatten some of the dimensions in the data space (because they are assumed to be noise and not meaningful variability)
+  - i.e. if you think that data along a particular axes like PC 2 is noise then you can compress the data down to the first dimension to only account for PC 1 axis.
+  - see [video](https://www.udemy.com/course/statsml_x/learn/lecture/20246056#content) at timestamp 3:46
+- This can make analyses simpler by reducing dimensions (i.e. useful if you are working with a high number of dimensions that you can compress down)
+
+## Math of PCA
+
+- PCA starts from a covariance Matrix
+- Perform an eigen value decomposition on the covariance matrix
+  - decomposes the matrix into eigenvectors and eigenvalues
+  - eigenvector has same num of elements as the matrix shape
+  - multiply the eigenvectors by the original data that was used to create the covariance matrix
+    - the eignenvector is a way of taking a weighted combination of all the different features in your dataset.
+    - the eigenvectors point to some space in the dataspace (they don't tell us which directions are more important however)
+    - The eigenvalue will help us determine which directions are more important (a higher eigenvalue indicates more importance for the corresponding eigenvector)
+    - The eigenvector/largest eigenvalue is the first principle component (PC 1)
+    - The eigenvectors are ways of rotating the data
+- Look at a spectrum of eigenvalues to get the eigenspectra.
+  - Look for the large eigenvalues that are high on the y axis of the spectrum plot - the higher the value, the more important the principle component is.
+    - The rest of the eigenvalues that are low are called noise or more precisely are low variance components
+    - see [video](https://www.udemy.com/course/statsml_x/learn/lecture/20246056#content) at timestamp 9:59
+    - You can use the highest Eigenvalues to determine how much you can compress the dimensions down to include only the highest values.
+
+## Limitations of PCA
+
+1. All principle components are forced into being Orthogonal
+
+- The correlation between any two principle components is necessarily 0.
+- This can lead to unexpected results in some cases
+
+2. Variance equates to relevance in PCA
+
+- Whatever data has the most or least amount of variance - that is what PCA will focus and pick up on.
+- If you have meaningful features in data that are isolated to a small number of characteristics, then PCA could disregard them because it sees they are not strongly correlated with a lot of other things in the data. (sometimes the unusual things are the most important things in data)
+- It might be possible that using PCA causes you to push out signal in the case where noise is high amplitude and the majority in the data.
