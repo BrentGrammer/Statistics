@@ -36,6 +36,14 @@
 ```python
 from sklearn.cluster import KMeans
 
+k = 3 # how many clusters
+kmeans = KMeans(n_clusters=k) # create the kmeans object with num clusters
+kmeans = kmeans.fit(data) # fit to the data passed in
+# group labels - 0,1 or 2 - label tells us which group the data point is in (0 1 or 2)
+groupidx = kmeans.predict(data)
+# centroids
+cents = kmeans.cluster_centers_ # x and y coords for the computed centers
+
 ```
 
 ## Determining cluster number
@@ -107,11 +115,19 @@ from sklearn.cluster import KMeans
 - Both are sensitive to scaling effects (esp dbscan)
   - ex. if you have one cluster with data closer together and another with data further apart, dbscan will probably not give you a good solution.
 - K-means: can assign every point to a cluster vs. Dbscan: some points are noise and unlabeled/unassigned to a cluster
+- **a major difference between dbscan and k-means is that dbscan will simply exclude points that don't fit into a cluster (assign them as noise), whereas k-means will assign every single data point to a cluster.**
+  - see comparison in [notebook](../../statsML/clustdimred/stats_clusterdimred_dbscan.ipynb)
 
 ## Code: Dbscan
 
 - see [notebook](../../statsML/clustdimred/stats_clusterdimred_dbscan.ipynb)
 - Use DBSCAN function from sci kit learn package:
+
 ```python
 from sklearn.cluster import DBSCAN
+
+# build a model using the DBSCAN fn
+# Epsilon(eps) is the step size in the algo for looking for points within that distance from each other
+# min_samples is the minimum num of data points needed to be considered a cluster
+clustmodel = DBSCAN(eps=.6,min_samples=6).fit(data)
 ```
