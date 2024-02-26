@@ -221,3 +221,20 @@ print('New data belong to group ' + str(whichgroupP[0]))
 - Whatever data has the most or least amount of variance - that is what PCA will focus and pick up on.
 - If you have meaningful features in data that are isolated to a small number of characteristics, then PCA could disregard them because it sees they are not strongly correlated with a lot of other things in the data. (sometimes the unusual things are the most important things in data)
 - It might be possible that using PCA causes you to push out signal in the case where noise is high amplitude and the majority in the data.
+
+## Code: PCA
+
+- see [notebook](../../statsML/clustdimred/stats_clusterdimred_PCA.ipynb)
+- Use the PCA function from Scikitlearn
+
+```python
+from sklearn.decomposition import PCA
+
+# PCA using scikitlearn's function
+pca = PCA().fit(y)
+
+# get the PC scores
+# apply the transformation of the principle components analysis to the data to get pc scores
+# The pc scores are the data transformed into the PC space
+pcscores = pca.transform(y)
+```
