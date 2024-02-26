@@ -29,5 +29,6 @@
   - [Statistical Power](./NOTES/Statistics/StatisticalPower.md)
 - [Data Visualizations](./NOTES/DataVisualizations/)
 - [Clustering](./NOTES/Statistics/Clustering.md)
+  - K-means, DBSCAN, K-Nearest Neighbor, PCA
 - [Deep Learning](./NOTES/DeepLearning/)
 - [Over and Under fitting](./NOTES/Statistics/OverFitting.md)
