@@ -238,3 +238,54 @@ pca = PCA().fit(y)
 # The pc scores are the data transformed into the PC space
 pcscores = pca.transform(y)
 ```
+
+# Independent Component Analysis (ICA)
+
+- based on the central limit theorem.
+- Starts from the assumption that true signals are non-gaussian distributed, and random mixtures of signals ARE Gaussian distributed (and therefore noise or not useful).
+- From the ICA perspective, it is a bad sign to see a Gaussian distribution - it means that you are either looking at noise or a random mixture of signals.
+  - The goal is to pool the data across different features of the dataset in order to make the weighted combinations of the features look as least gaussian distributed as possible.
+- Kurtosis can be used to measure the Gaussian-ness.
+  - refers to the fatness of the tails
+  - Gaussian distributions have relatively small tails, or low Kurtosis
+
+## Steps in ICA
+
+- Whiten the data - remove all the covariances
+  - This step is done via PCA and involves converting the covariance matrix into a matrix that has all zeros on the off diagonal (all the correlations across all the variables are set to zero)
+- ICA will then look for the relationships between the variables of the whitened data (note that the correlation between the data on the PC axes is zero by definition of how Principle Components work)
+  - see [video](https://www.udemy.com/course/statsml_x/learn/lecture/20246064#questions) around timestamp 6:30
+- ICA will look at the distributions from PCA and if a distribution looks Gaussian it will try to shift around the data and rotate the PC axes in order to make the distribution look less Gaussian.
+  - Note that strict linear dependencies in the dataset are removed, there is still some shared information that is preserved (ICA will pick up on this shared info).
+- ICA will rotate the PC axes and this is where it diverges from PCA
+  - PCA is orthogonal and rotates the data in the space
+  - ICA is more flexible, it takes the two vectors/PC axes and rotate them obliquely independntly of each other.
+  - see [video](https://www.udemy.com/course/statsml_x/learn/lecture/20246064#questions) at timestamp 8:34
+- This rotation and shifting creates an independent component space that changes the distribution of the signal (again, the goal is to move it away from gaussian shape)
+
+## Code: ICA
+
+- see [notebook](../../statsML/clustdimred/stats_clusterdimred_ICA.ipynb)
+- Use the FastICA fn from scikitlearn toolbox:
+
+```python
+from sklearn.decomposition import FastICA
+
+# two non-Gaussian distributions
+# First channel: 40% of dataset 1 and 30% of dataset 2
+# second channel: 80% of dataset 1 minus 70% of dataset 2
+data = np.vstack((.4*dist1+.3*dist2, .8*dist1-.7*dist2))
+
+# ICA and scores
+fastica = FastICA(max_iter=10000,tol=.0000001)
+b = fastica.fit_transform(data)
+iscores = b@data
+```
+
+# Note on advanced analysis
+
+- Uncertainty increases as analyses become more sophisticated. You can't assume with methods like PCA and ICA that throwing data at it will give you an appropriate result.
+  - Anytime you apply clustering make sure you're aware of the assumptions those methods make on the data.
+  - Ask if the data meets those assumptions and if you are getting from them exactly what you were looking to infer from the data.
+  - \*It can help to simulate data so that you know what the result and ground truth is to test the methods on, and if you get the expected result you can proceed, otherwise should be cautious about applying the method to real data.
+- Simple analyses like T-tests, Correlations, Regression analyses will give you better more reliable results as long as the model is set up correctly.
