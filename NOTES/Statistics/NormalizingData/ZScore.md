@@ -45,7 +45,7 @@ datastd = np.std(data,ddof=1)
 # mean = data.mean()
 # std = data.std(ddof=1)
 
-# calculate a z-score manually (sometimes you need to do this, i.e. permeutation testing)
+# calculate a z-score manually (sometimes you need to do this, i.e. permutation testing)
 dataz = (data-datamean) / datastd
 
 # alternatively can use the scipy function
@@ -62,4 +62,9 @@ plt.ylabel('Data value')
 plt.title(f'Mean = {np.round(dataZmean,2)}; std = {np.round(dataZstd,2)}')
 
 plt.show()
+```
+
+```python
+# another way to get z-score - use the inverse cumulative density function ppf
+z = stats.norm.ppf(datanum) # pass in a probability (i.e. 0.73) to get a z-value.
 ```

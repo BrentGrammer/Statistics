@@ -30,5 +30,11 @@
 - [Data Visualizations](./NOTES/DataVisualizations/)
 - [Clustering](./NOTES/Statistics/Clustering.md)
   - K-means, DBSCAN, K-Nearest Neighbor, PCA, ICA
+- [Signal Detection Theory](./NOTES/Statistics/SignalDetection.md)
+  - D-prime
+  - Response Bias
+  - Precision/Recall
+  - F-score
+  - ROC curves
 - [Deep Learning](./NOTES/DeepLearning/)
 - [Over and Under fitting](./NOTES/Statistics/OverFitting.md)
