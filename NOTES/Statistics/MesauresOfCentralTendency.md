@@ -97,6 +97,11 @@ iqrange = stats.iqr(data) # 1.198432...
 - Kurtosis is a valid measure for any distribution, not just Gaussian ones. It provides information about the shape of the distribution's tails relative to its center
 - For non-Gaussian distributions, kurtosis can be particularly informative. It helps identify whether the distribution has heavier tails (higher kurtosis) or lighter tails (lower kurtosis) compared to a normal distribution
 - There are more than 4 moments, but these are the most used moments. The frequency of values high compared to a Gaussian distribution is lower.
+- High kurtosis might indicate the presence of some extremely high-priced items among mostly moderately priced goods.
+- Low kurtosis could suggest a more uniform price distribution across items3.
+- interpret the results cautiously:
+  - Kurtosis is sensitive to outliers in the data.
+  - This is particularly a problem for small datasets, kurtosis estimates can be unreliable
 
 ### Unstandardized Stastical Moments:
 
