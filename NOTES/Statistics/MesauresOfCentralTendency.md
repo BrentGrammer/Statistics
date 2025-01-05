@@ -86,9 +86,9 @@ iqrange = stats.iqr(data) # 1.198432...
 - Third Moment: Skewness, Dispersion asymmetry against the mean
   - refers to the direction you're pulling the values of outliers off into (i.e. right skew means the tail goes long to the right)
 - Fourth Moment: Kurtosis, Tail fatness
-  - A bell curve distribution that falls off slowly (wide and fat) has High Kurtosis - it is more distributed and wider compared to a Gaussian
+  - A bell curve distribution that falls off slowly (wide and fat) has High Kurtosis - it is more distributed and wider compared to a Gaussian - the frequency of extreme values compared to Gaussian vals is higher
   - A bell curve that is skinny and falls off on either side quickly has Low Kurtosis - the tails are shorter than what you would expect for a Gaussian
-- There are more than 4 moments, but these are the most used moments.
+- There are more than 4 moments, but these are the most used moments. The frequency of values high compared to a Gaussian distribution is lower.
 
 ### Unstandardized Stastical Moments:
 
