@@ -1,5 +1,8 @@
 ## Degrees of Freedom
 
+See [python notebook](../../statsML/degreesoffreedom.ipynb)
+[Good video explanation](https://www.youtube.com/watch?v=-4aiKmPC994)
+
 - The number of points in a dataset or an analysis that can freely vary or move around while the other points are constrained and cannot move.
   - The number of independent sample values
   - The number of sample data points that can vary

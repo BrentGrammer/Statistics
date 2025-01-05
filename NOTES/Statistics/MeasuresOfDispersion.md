@@ -104,9 +104,9 @@ np.var(low_var_array)
 
 - Different ways of making a normal distribution with mean and median and std deviation vals
 - **NOTE**: The numpy standard deviation and variance functions by default compute the Population variances (the biased measures)!
-  - You need to remember to use the second argument, `ddof=1`. ddof is degrees of freedom and is zero by default (this is technically incorrect)
-
-left off at 15:27 - need to figure out what the heck the code is doing there.
+  - You need to remember to use the second argument, `ddof=1`. is zero by default (this is technically incorrect for sample variance/std deviation, and should only be used for population)
+  - The ddof parameter stands for "Delta Degrees of Freedom." By default, ddof is set to 0, which computes the population variance (using N as the divisor).
+    Setting ddof=1 adjusts the calculation to use N−1 as the divisor, which is necessary for obtaining an unbiased estimate of the variance from a sample.
 
 ```python
 mean = 10.2
