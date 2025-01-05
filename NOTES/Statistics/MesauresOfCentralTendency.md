@@ -81,13 +81,21 @@ iqrange = stats.iqr(data) # 1.198432...
 ## Statistical Moments
 
 - [video](https://www.udemy.com/course/statsml_x/learn/lecture/20009424#questions/18332018)
-- The Mean is the first moment of a distribution
-- Second moment: The Variance, dispersion around the mean
-- Third Moment: Skewness, Dispersion asymmetry against the mean
-  - refers to the direction you're pulling the values of outliers off into (i.e. right skew means the tail goes long to the right)
-- Fourth Moment: Kurtosis, Tail fatness
-  - A bell curve distribution that falls off slowly (wide and fat) has High Kurtosis - it is more distributed and wider compared to a Gaussian - the frequency of extreme values compared to Gaussian vals is higher
-  - A bell curve that is skinny and falls off on either side quickly has Low Kurtosis - the tails are shorter than what you would expect for a Gaussian
+
+#### First Moment: The Mean is the first moment of a distribution
+
+#### Second moment: The Variance, dispersion around the mean
+
+#### Third Moment: Skewness, Dispersion asymmetry against the mean
+
+- refers to the direction you're pulling the values of outliers off into (i.e. right skew means the tail goes long to the right)
+
+#### Fourth Moment: Kurtosis, Tail fatness
+
+- A bell curve distribution that falls off slowly (wide and fat) has High Kurtosis - it is more distributed and wider compared to a Gaussian - the frequency of extreme values compared to Gaussian vals is higher
+- A bell curve that is skinny and falls off on either side quickly has Low Kurtosis - the tails are shorter than what you would expect for a Gaussian
+- Kurtosis is a valid measure for any distribution, not just Gaussian ones. It provides information about the shape of the distribution's tails relative to its center
+- For non-Gaussian distributions, kurtosis can be particularly informative. It helps identify whether the distribution has heavier tails (higher kurtosis) or lighter tails (lower kurtosis) compared to a normal distribution
 - There are more than 4 moments, but these are the most used moments. The frequency of values high compared to a Gaussian distribution is lower.
 
 ### Unstandardized Stastical Moments:
