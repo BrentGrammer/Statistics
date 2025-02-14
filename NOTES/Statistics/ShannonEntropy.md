@@ -2,6 +2,7 @@
 
 ## Shannon Entropy (Entropy in Information theory)
 
+- The more certain (0 or 100% probability), the lower the Shannon Entropy. The less certain (50% probability - coin toss), the higher the Shannon Entropy.
 - Surprising things (less certain things) convey more information
   - A sample of all the same values has an entropy of 0 (it is not surprising and predictable to get a value of x in all x's). A sample of completely random and unique values, the entropy is 1 (each value is the maximal surprise)
   - In information theory, "surprising" means things that are unpredictable and not just unexpected. Predictability is the key measure of "surprise". i.e. a coin toss is very surprising - it is 50% chance and unpredictable.
